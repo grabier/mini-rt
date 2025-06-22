@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/22 14:05:35 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:37:59 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@ int	ft_parse_line(char *line, t_parse *program)
 	char	**spline;
 
 	spline = ft_split(line, ' ');
-	//printf("compare: %s\n", spline[0]);
+	/* if (spline[0][1] != '\0'){
+		printf("sp[0]: %s\n", spline[0]);
+		printf("sp[1]: %s\n", spline[1]);
+		printf("sp[2]: %s\n", spline[2]);
+	} */
 	if (!ft_strcmp(spline[0], "A"))
 		return (ft_parse_ambient(spline, program));
 	else if (!ft_strcmp(spline[0], "C"))
 		return (ft_parse_camera(spline, program));
-	else if (ft_strcmp(spline[0], "L"))
+	else if (!ft_strcmp(spline[0], "L"))
 		return (ft_parse_light(spline, program));
 	/*else if (ft_strcmp(spline[0], "s"))
 		return (ft_free(spline), ft_parse_sphere(spline, program));

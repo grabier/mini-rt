@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 19:42:04 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/21 20:51:38 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:34:20 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ int	ft_parse_ambient(char **spline, t_parse *program)
 	sp_aux = ft_split(spline[2], ',');
 	printf("spline: %s\n", sp_aux[1]);
 	if (!ft_check_color(sp_aux))//check if valid for int
-		return (printf("ambient color out invalid\n"), ft_free(sp_aux), 0);
+		return (printf("ambient color out invalid\n"), ft_free(sp_aux), ft_free(spline), 0);
 	aux = ft_atoi(sp_aux[0]);
 	if(!ft_init_t_color_am(program, aux, ft_atoi(sp_aux[1]), ft_atoi(sp_aux[2])))//check if in the rgb range
-		return (printf("ambient color invalid\n"), ft_free(sp_aux), 0);
+		return (printf("ambient color invalid\n"), ft_free(sp_aux), ft_free(spline), 0);
 	if(spline[3] != NULL)
 		return (ft_free(sp_aux), 0);
 	program->A++;
-	return (ft_free(sp_aux), free(spline), 1);
+	return (ft_free(sp_aux), ft_free(spline), 1);
 }

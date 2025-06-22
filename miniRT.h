@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/21 20:02:26 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:20:12 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,19 @@ void	ft_free(char **sp);
 
 //ambient_parsing.c
 int		ft_parse_ambient(char **spline, t_parse *program);
-int		init_t_color_am(t_parse *program, int r, int g, int b);
-int		check_color(char **sp);
+int		ft_init_t_color_am(t_parse *program, int r, int g, int b);
+int		ft_check_color(char **sp);
 
 //camera_parsing.c
 int		ft_parse_camera(char **sp, t_parse *program);
-int		init_t_point_cm(t_parse *program, float x, float y, float z);
-int		init_t_point_cmn(t_parse *program, float x, float y, float z);
-int		init_cam_fov(t_parse *program, int fov);
+int		ft_init_t_point_cm(t_parse *program, float x, float y, float z);
+int		ft_init_t_point_cmn(t_parse *program, float x, float y, float z);
+int		ft_init_cam_fov(t_parse *program, int fov);
+
+//light parsing.c
+int		ft_parse_light(char **sp, t_parse *program);
+int		ft_init_t_point_li(t_parse *program, float x, float y, float z);
+int		ft_init_t_color_li(t_parse *program, int r, int g, int b);
 
 //parsing.c
 int		ft_parse_line(char *line, t_parse *program);

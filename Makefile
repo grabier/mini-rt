@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -16,6 +16,7 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/ft_atof.c \
 	   $(SRC_DIR)/ambient_parsing.c \
 	   $(SRC_DIR)/camera_parsing.c \
+	   $(SRC_DIR)/light_parsing.c \
 	   $(SRC_DIR)/utils1.c \
 
 OBJ_DIR = ./obj

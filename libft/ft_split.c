@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:05:18 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/21 20:52:35 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:31:50 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	ft_cletter(const char *s, char c)
 	return (cont);
 }
 
-static char	*ft_free(char **s, int index, int size)
+static char	*ft_frees(char **s, int index, int size)
 {
 	int	i;
 
@@ -83,7 +83,7 @@ char	**ft_split(const char *s, char c)
 		return (NULL);
 	while (cont[0] < ft_cword(s, c))
 	{
-		sp[cont[0]] = ft_free(sp, cont[0], ft_cletter(&s[cont[2]], c) + 1);
+		sp[cont[0]] = ft_frees(sp, cont[0], ft_cletter(&s[cont[2]], c) + 1);
 		if (sp[cont[0]] == NULL)
 			return (free(sp), NULL);
 		while (s[cont[2]] == c)
