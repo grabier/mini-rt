@@ -1,0 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ambient_parsing.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/21 19:42:04 by gmontoro          #+#    #+#             */
+/*   Updated: 2025/06/21 20:51:38 by gmontoro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../miniRT.h"
+
+int	ft_init_t_color_am(t_parse *program, int r, int g, int b)
+{
+	if (r > 255 || g > 255 || b > 255 || r < 0 || g < 0 || b < 0)
+		return (0);
+	program->am_color.r = (unsigned char)r;
+	program->am_color.g = (unsigned char)g;
+	program->am_color.b = (unsigned char)b;
+	return (1);
+}
+
+int	ft_check_color(char **sp)
+{
+	printf("entra al color: r: %s, g: %s, b: %s\n", sp[0], sp[1], sp[2]);
+	printf("entra al color(int): r: %i, g: %i, b: %i\n", ft_atoi(sp[0]), ft_atoi(sp[1]), ft_atoi(sp[2]));
+	if (ft_atoi(sp[0]) == -1 || ft_atoi(sp[1]) == -1 || ft_atoi(sp[2]) == -1)
+		return (0);
+	return (1);
+}
+
+int	ft_parse_ambient(char **spline, t_parse *program)
+{
+	float	f;
+	char	**sp_aux;
+	int		aux;
+	
+	f = ft_atof(spline[1]);//2.232323 for error
+	if(f < 0.0 || f > 1.0 || f == 2.232323)
+		return (printf("ambient ratio invalid\n"), 0);
+	program->am_ratio = f;
+	sp_aux = ft_split(spline[2], ',');
+	printf("spline: %s\n", sp_aux[1]);
+	if (!ft_check_color(sp_aux))//check if valid for int
+		return (printf("ambient color out invalid\n"), ft_free(sp_aux), 0);
+	aux = ft_atoi(sp_aux[0]);
+	if(!ft_init_t_color_am(program, aux, ft_atoi(sp_aux[1]), ft_atoi(sp_aux[2])))//check if in the rgb range
+		return (printf("ambient color invalid\n"), ft_free(sp_aux), 0);
+	if(spline[3] != NULL)
+		return (ft_free(sp_aux), 0);
+	program->A++;
+	return (ft_free(sp_aux), free(spline), 1);
+}
