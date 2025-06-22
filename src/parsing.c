@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/21 20:15:36 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/06/22 14:05:35 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int	ft_parse_line(char *line, t_parse *program)
 	char	**spline;
 
 	spline = ft_split(line, ' ');
-	printf("compare: %s\n", spline[0]);
+	//printf("compare: %s\n", spline[0]);
 	if (!ft_strcmp(spline[0], "A"))
 		return (ft_parse_ambient(spline, program));
 	else if (!ft_strcmp(spline[0], "C"))
 		return (ft_parse_camera(spline, program));
-	/* else if (ft_strcmp(spline[0], "L"))
-		return (ft_free(spline), ft_parse_light(spline, program));
-	else if (ft_strcmp(spline[0], "s"))
+	else if (ft_strcmp(spline[0], "L"))
+		return (ft_parse_light(spline, program));
+	/*else if (ft_strcmp(spline[0], "s"))
 		return (ft_free(spline), ft_parse_sphere(spline, program));
 	else if (ft_strcmp(spline[0], "p"))
 		return (ft_free(spline), ft_parse_plane(spline, program));
@@ -74,7 +74,7 @@ int		ft_check_extension(char *file)
 	int	i;
 
 	i = ft_strlen(file);
-	printf("filename: %s, finalletter: %c\n", file, file[i -1 ]);
+	//printf("filename: %s, finalletter: %c\n", file, file[i -1 ]);
 	if (file[i - 1] != 't' || file[i - 2] != 'r' || file[i - 3] != '.')
 		return (0);
 	return (1);

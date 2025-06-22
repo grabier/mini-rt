@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/21 19:54:35 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/06/22 13:59:39 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void ft_draw_gradient()
 void	ft_debug_parsing(t_parse *p)
 {
 	printf("A:	amlr: %f.	RGB: %i , %i , %i\n", p->am_ratio, p->am_color.r, p->am_color.g, p->am_color.b);
+	printf("C:	cam_point: %f, %f, %f\t", p->cam_point.x, p->cam_point.y, p->cam_point.z);
+	printf("cam_nvec: %f, %f, %f\t", p->cam_vector.x, p->cam_vector.y, p->cam_vector.z);
+	printf("cam_fov: %i\n", p->cam_fov);
 }
 
 int main(int argc, char **argv)
