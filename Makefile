@@ -18,6 +18,8 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/camera_parsing.c \
 	   $(SRC_DIR)/light_parsing.c \
 	   $(SRC_DIR)/utils1.c \
+	   $(SRC_DIR)/sphere_lst.c \
+	   $(SRC_DIR)/sphere_parsing.c \
 
 OBJ_DIR = ./obj
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

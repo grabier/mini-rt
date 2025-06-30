@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/22 15:37:59 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:57:32 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int	ft_parse_line(char *line, t_parse *program)
 	char	**spline;
 
 	spline = ft_split(line, ' ');
+	/* if (spline[0][0] == '\0')
+		printf("entra al salto: %s\n", spline[0]);
+	printf("entra al parse: %s\n", spline[0]); */
 	/* if (spline[0][1] != '\0'){
 		printf("sp[0]: %s\n", spline[0]);
 		printf("sp[1]: %s\n", spline[1]);
@@ -28,13 +31,13 @@ int	ft_parse_line(char *line, t_parse *program)
 		return (ft_parse_camera(spline, program));
 	else if (!ft_strcmp(spline[0], "L"))
 		return (ft_parse_light(spline, program));
-	/*else if (ft_strcmp(spline[0], "s"))
-		return (ft_free(spline), ft_parse_sphere(spline, program));
-	else if (ft_strcmp(spline[0], "p"))
+	else if (!ft_strcmp(spline[0], "sp"))
+		return (ft_parse_sphere(spline, program));
+	/* else if (!ft_strcmp(spline[0], "p"))
 		return (ft_free(spline), ft_parse_plane(spline, program));
-	else if (ft_strcmp(spline[0], "cy"))
+	else if (!ft_strcmp(spline[0], "cy"))
 		return (ft_free(spline), ft_parse_cylinder(spline, program)); */
-	else if (ft_strcmp(spline[0], "\n"))
+	else if (!ft_strcmp(line, "\n"))
 		return (ft_free(spline), 1);
 	else
 		return (ft_free(spline), 0);
@@ -51,6 +54,7 @@ t_parse *ft_init_parse()
 	parse->s = 0;
 	parse->p = 0;
 	parse->cy = 0;
+	parse->sp = NULL;
 	return (parse);
 }
 
@@ -59,10 +63,14 @@ t_parse	*ft_read_file(int fd)
 	char	*line;
 	t_parse	*program;
 
-	program = malloc(sizeof(t_parse));
+	program = ft_init_parse();
 	while (1)
 	{
 		line = get_next_line(fd);
+		/* if (!ft_strcmp(line, "\n"))
+			printf("salotlinea\n");
+		else
+			printf("NO salotlinea\n"); */
 		if (!line)
 			break;
 		if (!ft_parse_line(line, program))

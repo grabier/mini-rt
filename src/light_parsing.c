@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:06:00 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/22 15:37:47 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:07:42 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	ft_parse_light(char **sp, t_parse *program)
 	float	f;
 	int		n;
 
-	printf("sp1: %s\n", sp[0]);
+	//printf("sp1: %s\n", sp[0]);
 	sp_aux = ft_split(sp[1], ',');
 	f = ft_atof(sp_aux[0]);
 	if(!ft_init_t_point_li(program, f, ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
-		return (printf("light point invalid\n"), ft_free(sp_aux), 0);
+		return (printf("light point invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
 	f = ft_atof(sp[2]);//2.232323 for error
-	if(f < 0.0 || f > 1.0 || f == 2.232323)
-		return (printf("light ratio invalid\n"), 0);
+	if(f < 0.0 || f > 1.0 || fabs(f - 2.232323) < 0.0001)
+		return (printf("light ratio invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
 	program->l_bright = f;
 	if (!sp[3])
 		return (ft_free(sp_aux), ft_free(sp), 1);
@@ -44,7 +44,7 @@ int	ft_parse_light(char **sp, t_parse *program)
 
 int	ft_init_t_point_li(t_parse *program, float x, float y, float z)
 {
-	if (x == 2.232323 || y == 2.232323 || z == 2.232323)
+	if (fabs(x - 2.232323) < 0.0001 || fabs(y - 2.232323) < 0.0001 || fabs(z - 2.232323) < 0.0001)
 		return (0);
 	program->l_point.x = x;
 	program->l_point.y = y;

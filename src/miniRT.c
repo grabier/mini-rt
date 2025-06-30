@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/22 15:42:18 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:06:20 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,21 @@ void ft_draw_gradient()
 
 void	ft_debug_parsing(t_parse *p)
 {
+	t_sph *aux = p->sp;
 	printf("A:	amlr: %f\t\tRGB: %i , %i , %i\n", p->am_ratio, p->am_color.r, p->am_color.g, p->am_color.b);
 	printf("C:	cam_point: %f, %f, %f\t\t", p->cam_point.x, p->cam_point.y, p->cam_point.z);
 	printf("cam_nvec: %f, %f, %f\t\t", p->cam_vector.x, p->cam_vector.y, p->cam_vector.z);
 	printf("cam_fov: %i\n", p->cam_fov);
 	printf("L:	light_point: %f, %f, %f		light_ratio: %f\t\t light_color: %i , %i , %i\n", p->l_point.x, p->l_point.y, p->l_point.z, p->l_bright, p->l_color.r, p->l_color.g, p->l_color.b);
+	int i = 0;
+	while (aux)
+	{
+		printf("sp[%i]: sp_point: %f, %f, %f\t\t", i, aux->point.x, aux->point.y, p->sp->point.z);
+		printf("diam: %f\t\t", aux->diam);
+		printf("RGB: %i , %i , %i\n",  aux->color.r, aux->color.g, aux->color.b);
+		i++;
+		aux = aux->next;
+	}
 }
 
 int main(int argc, char **argv)
@@ -64,8 +74,9 @@ int main(int argc, char **argv)
 	//ft_draw_gradient();
 	t_parse * program = ft_parsing(argc, argv);
 	if (!program)
-		return (1);
+		return ( 1);
 	ft_debug_parsing(program);
+	ft_free_sp(program);
 	free(program);
 	return (0);
 }

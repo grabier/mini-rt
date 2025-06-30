@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 19:42:55 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/22 15:35:16 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:07:02 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_parse_camera(char **sp, t_parse *program)
 
 int	ft_init_t_point_cm(t_parse *program, float x, float y, float z)
 {
-	if (x == 2.232323 || y == 2.232323 || z == 2.232323)
+	if (fabs(x - 2.232323) < 0.0001 || fabs(y - 2.232323) < 0.0001 || fabs(z - 2.232323) < 0.0001)
 		return (0);
 	program->cam_point.x = x;
 	program->cam_point.y = y;
@@ -46,7 +46,7 @@ int	ft_init_t_point_cm(t_parse *program, float x, float y, float z)
 
 int	ft_init_t_point_cmn(t_parse *program, float x, float y, float z)
 {
-	if (x == 2.232323 || y == 2.232323 || z == 2.232323)
+	if (fabs(x - 2.232323) < 0.0001 || fabs(y - 2.232323) < 0.0001 || fabs(z - 2.232323) < 0.0001)
 		return (0);
 	if (x > 1 || x < -1 || y > 1 || y < -1 || z > 1 || z < -1)
 		return (0);
