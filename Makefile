@@ -20,6 +20,10 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/utils1.c \
 	   $(SRC_DIR)/sphere_lst.c \
 	   $(SRC_DIR)/sphere_parsing.c \
+	   $(SRC_DIR)/plane_lst.c \
+	   $(SRC_DIR)/plane_parsing.c \
+	   $(SRC_DIR)/cylinder_lst.c \
+	   $(SRC_DIR)/cylinder_parsing.c \
 
 OBJ_DIR = ./obj
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

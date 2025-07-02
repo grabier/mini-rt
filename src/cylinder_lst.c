@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere_lst.c                                       :+:      :+:    :+:   */
+/*   cylinder_lst.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/22 17:08:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/02 15:38:50 by gmontoro         ###   ########.fr       */
+/*   Created: 2025/07/02 17:05:16 by gmontoro          #+#    #+#             */
+/*   Updated: 2025/07/02 18:16:06 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@
 	}
 } */
 
-void	ft_free_sp(t_parse *p)
+void	ft_free_cy(t_parse *p)
 {
-	t_sph	*aux;
+	t_cy	*aux;
 
-	while (p->sp)
+	while (p->cy)
 	{
-		aux = p->sp->next;
-		printf("freed a sphere\n");
-		free(p->sp);
-		p->sp = aux;
+		aux = p->cy->next;
+		printf("freed a cylinder\n");
+		free(p->cy);
+		p->cy = aux;
 	}
 }
 
-void	ft_sphadd_back(t_sph **lst, t_sph *new)
+void	ft_cyadd_back(t_cy **lst, t_cy *new)
 {
-	t_sph	*aux;
-
+	t_cy	*aux;
+ 
 	aux = *lst;
 	if (!new)
 		return ;
@@ -52,28 +52,30 @@ void	ft_sphadd_back(t_sph **lst, t_sph *new)
 	aux->next = new;
 }
 
-void	ft_sphadd_front(t_sph **lst, t_sph *new)
+void	ft_cyadd_front(t_cy **lst, t_cy *new)
 {
 	new->next = *lst;
 	*lst = new;
 }
 
-t_sph	*ft_sphnew(t_point p, float d, t_color c)
+t_cy	*ft_cynew(t_aux	params)
 {
-	t_sph	*new_node;
+	t_cy	*new_node;
 
-	new_node = (t_sph *)malloc(sizeof(t_sph));
+	new_node = (t_cy *)malloc(sizeof(t_cy));
 	if (!new_node)
 		return (NULL);
-	new_node->color = c;
-	new_node->point = p;
-	new_node->diam = d;
+	new_node->color = params.color;
+	new_node->point = params.point;
+	new_node->n_vector = params.n_vector;
+	new_node->diam = params.diam;
+	new_node->height = params.height;
 	new_node->next = NULL;
-	printf("created a sphere\n");
+	printf("created a cylinder\n");
 	return (new_node);
 }
 
-int	ft_sphsize(t_sph *lst)
+int	ft_cysize(t_cy *lst)
 {
 	int	i;
 

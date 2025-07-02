@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/30 17:57:32 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:26:14 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int	ft_parse_line(char *line, t_parse *program)
 		return (ft_parse_light(spline, program));
 	else if (!ft_strcmp(spline[0], "sp"))
 		return (ft_parse_sphere(spline, program));
-	/* else if (!ft_strcmp(spline[0], "p"))
-		return (ft_free(spline), ft_parse_plane(spline, program));
+	else if (!ft_strcmp(spline[0], "pl"))
+		return (ft_parse_plane(spline, program));
 	else if (!ft_strcmp(spline[0], "cy"))
-		return (ft_free(spline), ft_parse_cylinder(spline, program)); */
+		return (ft_parse_cylinder(spline, program));
 	else if (!ft_strcmp(line, "\n"))
 		return (ft_free(spline), 1);
 	else
@@ -51,10 +51,12 @@ t_parse *ft_init_parse()
 	parse->A = 0;
 	parse->C = 0;
 	parse->L = 0;
-	parse->s = 0;
-	parse->p = 0;
-	parse->cy = 0;
+	parse->sp_count = 0;
+	parse->pl_count = 0;
+	parse->cy_count = 0;
 	parse->sp = NULL;
+	parse->pl = NULL;
+	parse->cy = NULL;
 	return (parse);
 }
 
@@ -74,7 +76,7 @@ t_parse	*ft_read_file(int fd)
 		if (!line)
 			break;
 		if (!ft_parse_line(line, program))
-			return (free(program), free(line), NULL);
+			return (free(line), ft_free_parsing(program));
 		free(line);
 	}
 	close(fd);
@@ -90,6 +92,16 @@ int		ft_check_extension(char *file)
 	if (file[i - 1] != 't' || file[i - 2] != 'r' || file[i - 3] != '.')
 		return (0);
 	return (1);
+}
+
+
+t_parse	*ft_free_parsing(t_parse *p)
+{
+	ft_free_sp(p);
+	ft_free_pl(p);
+	ft_free_cy(p);
+	free(p);
+	return (NULL);
 }
 
 t_parse	*ft_parsing(int argc, char **argv)

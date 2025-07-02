@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/30 18:06:20 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:23:28 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void ft_draw_gradient()
 void	ft_debug_parsing(t_parse *p)
 {
 	t_sph *aux = p->sp;
+	t_pl *aux2 = p->pl;
+	t_cy	*aux3 = p->cy;
 	printf("A:	amlr: %f\t\tRGB: %i , %i , %i\n", p->am_ratio, p->am_color.r, p->am_color.g, p->am_color.b);
 	printf("C:	cam_point: %f, %f, %f\t\t", p->cam_point.x, p->cam_point.y, p->cam_point.z);
 	printf("cam_nvec: %f, %f, %f\t\t", p->cam_vector.x, p->cam_vector.y, p->cam_vector.z);
@@ -61,11 +63,32 @@ void	ft_debug_parsing(t_parse *p)
 	int i = 0;
 	while (aux)
 	{
-		printf("sp[%i]: sp_point: %f, %f, %f\t\t", i, aux->point.x, aux->point.y, p->sp->point.z);
+		printf("sp[%i]: sp_point: %f, %f, %f\t\t", i, aux->point.x, aux->point.y, aux->point.z);
 		printf("diam: %f\t\t", aux->diam);
 		printf("RGB: %i , %i , %i\n",  aux->color.r, aux->color.g, aux->color.b);
 		i++;
 		aux = aux->next;
+	}
+	i = 0;
+	while (aux2)
+	{
+		printf("pl[%i]: pl_point: %f, %f, %f\t\t", i, aux2->point.x, aux2->point.y, aux2->point.z);
+		printf("pl_n_vec: %f, %f, %f\t\t", aux2->n_vector.x, aux2->n_vector.y, aux2->n_vector.z);
+		printf("RGB: %i , %i , %i\n",  aux2->color.r, aux2->color.g, aux2->color.b);
+		i++;
+		aux2 = aux2->next;
+	}
+	i = 0;
+	while (aux3)
+	{
+		//printf("debug_cilindro\n");
+		printf("cy[%i]: cy_point: %f, %f, %f\t\t", i, aux3->point.x, aux3->point.y, aux3->point.z);
+		printf("cy_n_vec: %f, %f, %f\t\t", aux3->n_vector.x, aux3->n_vector.y, aux3->n_vector.z);
+		printf("diam: %f\t\t", aux3->diam);
+		printf("height: %f\t\t", aux3->height);
+		printf("RGB: %i , %i , %i\n",  aux3->color.r, aux3->color.g, aux3->color.b);
+		i++;
+		aux3 = aux3->next;
 	}
 }
 
@@ -74,9 +97,11 @@ int main(int argc, char **argv)
 	//ft_draw_gradient();
 	t_parse * program = ft_parsing(argc, argv);
 	if (!program)
-		return ( 1);
+		return (1);
 	ft_debug_parsing(program);
-	ft_free_sp(program);
-	free(program);
-	return (0);
+	/* ft_free_sp(program);
+	ft_free_pl(program);
+	ft_free_cy(program);
+	free(program); */
+	return (ft_free_parsing(program), 0);
 }

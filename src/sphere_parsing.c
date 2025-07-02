@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:25:17 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/06/30 19:06:30 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:54:47 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,35 @@ int	ft_parse_sphere(char **sp, t_parse *p)
 	f = ft_atof(sp_aux[0]);
 	if (!ft_check_point(f, ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
 		return (printf("sp point invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
-	point = ft_init_p_sp(f, ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
+	point = ft_init_point(f, ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
+
+	
 	f = ft_atof(sp[2]);
-	if (f <= 0 || f == 2.232323)
+	if (f <= 0 || fabs(f - 2.232323) < 0.0001)
 		return (printf("sp diam invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
+
 	sp_aux2 = ft_split(sp[3], ',');
-	if (!ft_check_color_sp(sp_aux2))
+	if (!ft_check_color(sp_aux2))
 		return (printf("sp color invalid\n"), ft_free(sp_aux), ft_free(sp_aux2), ft_free(sp), 0);
-	c = ft_init_sp_color(sp_aux2);
+	c = ft_init_color(sp_aux2);
+
+	
 	ft_sphadd_back(&p->sp, ft_sphnew(point, f, c));
-	//printf("diam : %f\n", p->sp->diam);
-	p->s++;
+	p->sp_count++;
 	return (ft_free(sp_aux),ft_free(sp_aux2), ft_free(sp), 1);
 }
 
-int	ft_check_color_sp(char **sp)
+t_point ft_init_point(float x, float y, float z)
+{
+	t_point p;
+
+	p.x = x;
+	p.y = y;
+	p.z = z;
+	return (p);
+}
+
+int	ft_check_color(char **sp)
 {
 	int	a;
 	int	b;
@@ -57,7 +71,7 @@ int	ft_check_color_sp(char **sp)
 	return (1);
 }
 
-t_color ft_init_sp_color(char **sp)
+t_color ft_init_color(char **sp)
 {
 	int	a;
 	int	b;
@@ -73,20 +87,10 @@ t_color ft_init_sp_color(char **sp)
 	return (color);
 }
 
-t_point ft_init_p_sp(float x, float y, float z)
-{
-	t_point p;
-
-	p.x = x;
-	p.y = y;
-	p.z = z;
-	return (p);
-}
-
 int	ft_check_point(float x, float y, float z)
 {
-	printf("check_point: \n");
-	printf("x: %f, y: %f, z: %f\n", x, y, z);
+	//printf("check_point: \n");
+	//printf("x: %f, y: %f, z: %f\n", x, y, z);
 	
 	if (fabs(x - 2.232323) < 0.0001 || fabs(y - 2.232323) < 0.0001 || fabs(z - 2.232323) < 0.0001)
 		return (0);

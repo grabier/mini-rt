@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere_lst.c                                       :+:      :+:    :+:   */
+/*   plane_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/22 17:08:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/02 15:38:50 by gmontoro         ###   ########.fr       */
+/*   Created: 2025/07/02 16:12:34 by gmontoro          #+#    #+#             */
+/*   Updated: 2025/07/02 16:57:32 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,22 @@
 	}
 } */
 
-void	ft_free_sp(t_parse *p)
+void	ft_free_pl(t_parse *p)
 {
-	t_sph	*aux;
+	t_pl	*aux;
 
-	while (p->sp)
+	while (p->pl)
 	{
-		aux = p->sp->next;
-		printf("freed a sphere\n");
-		free(p->sp);
-		p->sp = aux;
+		aux = p->pl->next;
+		printf("freed a plane\n");
+		free(p->pl);
+		p->pl = aux;
 	}
 }
 
-void	ft_sphadd_back(t_sph **lst, t_sph *new)
+void	ft_pladd_back(t_pl **lst, t_pl *new)
 {
-	t_sph	*aux;
+	t_pl	*aux;
 
 	aux = *lst;
 	if (!new)
@@ -52,28 +52,28 @@ void	ft_sphadd_back(t_sph **lst, t_sph *new)
 	aux->next = new;
 }
 
-void	ft_sphadd_front(t_sph **lst, t_sph *new)
+void	ft_pladd_front(t_pl **lst, t_pl *new)
 {
 	new->next = *lst;
 	*lst = new;
 }
 
-t_sph	*ft_sphnew(t_point p, float d, t_color c)
+t_pl	*ft_plnew(t_point p, t_point n, t_color c)
 {
-	t_sph	*new_node;
+	t_pl	*new_node;
 
-	new_node = (t_sph *)malloc(sizeof(t_sph));
+	new_node = (t_pl *)malloc(sizeof(t_pl));
 	if (!new_node)
 		return (NULL);
 	new_node->color = c;
 	new_node->point = p;
-	new_node->diam = d;
+	new_node->n_vector = n;
 	new_node->next = NULL;
-	printf("created a sphere\n");
+	printf("created a plane\n");
 	return (new_node);
 }
 
-int	ft_sphsize(t_sph *lst)
+int	ft_plsize(t_pl *lst)
 {
 	int	i;
 
