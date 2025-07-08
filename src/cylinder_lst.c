@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:05:16 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/02 18:16:06 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:16:33 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_free_cy(t_parse *p)
 	while (p->cy)
 	{
 		aux = p->cy->next;
-		printf("freed a cylinder\n");
+		//printf("freed a cylinder\n");
 		free(p->cy);
 		p->cy = aux;
 	}
@@ -71,7 +71,7 @@ t_cy	*ft_cynew(t_aux	params)
 	new_node->diam = params.diam;
 	new_node->height = params.height;
 	new_node->next = NULL;
-	printf("created a cylinder\n");
+	//printf("created a cylinder\n");
 	return (new_node);
 }
 

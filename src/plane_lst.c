@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:12:34 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/02 16:57:32 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:30:15 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_free_pl(t_parse *p)
 	while (p->pl)
 	{
 		aux = p->pl->next;
-		printf("freed a plane\n");
+		//printf("freed a plane\n");
 		free(p->pl);
 		p->pl = aux;
 	}
@@ -58,7 +58,7 @@ void	ft_pladd_front(t_pl **lst, t_pl *new)
 	*lst = new;
 }
 
-t_pl	*ft_plnew(t_point p, t_point n, t_color c)
+t_pl	*ft_plnew(t_vec p, t_vec n, t_color c)
 {
 	t_pl	*new_node;
 
@@ -69,7 +69,7 @@ t_pl	*ft_plnew(t_point p, t_point n, t_color c)
 	new_node->point = p;
 	new_node->n_vector = n;
 	new_node->next = NULL;
-	printf("created a plane\n");
+	//printf("created a plane\n");
 	return (new_node);
 }
 

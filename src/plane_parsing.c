@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:33:03 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/02 16:58:59 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:30:15 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_parse_plane(char **sp, t_parse *p)
 {
-	t_point p1;
-	t_point p2;
+	t_vec p1;
+	t_vec p2;
 	t_color	c;
 	char	**sp_aux;
 
@@ -23,7 +23,7 @@ int	ft_parse_plane(char **sp, t_parse *p)
 	sp_aux = ft_split(sp[1], ',');
 	if (!ft_check_point(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
 		return (printf("pl point invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
-	p1 = ft_init_point(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
+	p1 = ft_init_vec(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
 	ft_free(sp_aux);
 	//printf("pl_point: %f, %f, %f\n", p1.x, p1.y, p1.z);
 
@@ -31,7 +31,7 @@ int	ft_parse_plane(char **sp, t_parse *p)
 	sp_aux = ft_split(sp[2], ',');
 	if (!ft_check_n_vector(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
 		return (printf("pl normal vector invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
-	p2 = ft_init_point(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
+	p2 = ft_init_vec(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
 	ft_free(sp_aux);
 	
 	//init plane color

@@ -6,16 +6,13 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/02 18:23:28 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/08 20:00:08 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-# define MAX_W 3840  //3840
-# define MAX_H 2160  //2160
-
-/* uint32_t	rgb_to_hex_alpha(t_color color)
+uint32_t	rgb_to_hex_alpha(t_color color)
 {
 	return (color.b << 24) | (color.g << 16) |
 			(color.r << 8) | 0xFF;
@@ -48,7 +45,7 @@ void ft_draw_gradient()
 
 	mlx_image_to_window(data, img, 0, 0);
 	mlx_loop(data);
-} */
+}
 
 void	ft_debug_parsing(t_parse *p)
 {
@@ -56,10 +53,15 @@ void	ft_debug_parsing(t_parse *p)
 	t_pl *aux2 = p->pl;
 	t_cy	*aux3 = p->cy;
 	printf("A:	amlr: %f\t\tRGB: %i , %i , %i\n", p->am_ratio, p->am_color.r, p->am_color.g, p->am_color.b);
-	printf("C:	cam_point: %f, %f, %f\t\t", p->cam_point.x, p->cam_point.y, p->cam_point.z);
-	printf("cam_nvec: %f, %f, %f\t\t", p->cam_vector.x, p->cam_vector.y, p->cam_vector.z);
-	printf("cam_fov: %i\n", p->cam_fov);
-	printf("L:	light_point: %f, %f, %f		light_ratio: %f\t\t light_color: %i , %i , %i\n", p->l_point.x, p->l_point.y, p->l_point.z, p->l_bright, p->l_color.r, p->l_color.g, p->l_color.b);
+	printf("C:	cam_point: %f, %f, %f\t\t", p->cam->origin.x, p->cam->origin.y, p->cam->origin.z);
+	printf("cam_nvec: %f, %f, %f\t\t", p->cam->fw.x, p->cam->fw.y, p->cam->fw.z);
+	printf("cam_fov: %f\n", p->cam->fov / (PI / 180));
+	printf("L:	light_vec: %f, %f, %f		light_ratio: %f\t\t light_color: %i , %i , %i\n", p->l_point.x, p->l_point.y, p->l_point.z, p->l_bright, p->l_color.r, p->l_color.g, p->l_color.b);
+	printf("viewport data: center: (%f, %f, %f)\t\t lower_left: (%f, %f, %f)\n"
+		, p->cam->center.x, p->cam->center.y, p->cam->center.z, p->cam->lower_left.x, p->cam->lower_left.y, p->cam->lower_left.z);
+	printf("viewport data: vertical: (%f, %f, %f)\t\t horizontal: (%f, %f, %f)\n"
+		, p->cam->ver.x, p->cam->ver.y, p->cam->ver.z, p->cam->hor.x, p->cam->hor.y, p->cam->hor.z);
+	printf("vp_h: %f, vp_w: %f\n", p->cam->vp_h, p->cam->vp_w);
 	int i = 0;
 	while (aux)
 	{

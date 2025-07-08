@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/02 18:26:14 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/07 15:12:21 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,23 @@ t_parse	*ft_free_parsing(t_parse *p)
 	ft_free_sp(p);
 	ft_free_pl(p);
 	ft_free_cy(p);
+	free(p->cam);
 	free(p);
 	return (NULL);
+}
+
+int	ft_check_parsing (t_parse *p)
+{
+	if (p->A != 1)
+		return (printf("Error: No ambient lighting\n"), ft_free_parsing(p), 0);
+	//printf("cameras: %i\n", p->C);
+	if (p->C != 1)
+		return (printf("Error: No camera\n"), ft_free_parsing(p), 0);
+	if (p->L != 1)
+		return (printf("Error: No light\n"), ft_free_parsing(p), 0);
+	if (p->pl_count == 0 && p->cy_count == 0 && p->sp_count == 0)
+		return (printf("Error: No object to represent\n"), ft_free_parsing(p), 0);
+	return (1);
 }
 
 t_parse	*ft_parsing(int argc, char **argv)
@@ -117,7 +132,7 @@ t_parse	*ft_parsing(int argc, char **argv)
 	if (fd == -1)
 		return (printf("Error: couldn't open file\n"), NULL);
 	program = ft_read_file(fd);
-	if (!program)
+	if (!program || !ft_check_parsing(program))
 		return (NULL);
 	return (program);
 }

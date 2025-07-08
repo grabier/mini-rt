@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:26:21 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/02 18:10:44 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:30:15 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	ft_parse_cylinder(char **sp, t_parse *p)
 	sp_aux = ft_split(sp[1], ',');
 	if (!ft_check_point(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
 		return (printf("cy point invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
-	a.point = ft_init_point(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
+	a.point = ft_init_vec(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
 	ft_free(sp_aux);
 	
 	sp_aux = ft_split(sp[2], ',');
 	if (!ft_check_n_vector(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
 		return (printf("cy normal vector invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
-	a.n_vector = ft_init_point(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
+	a.n_vector = ft_init_vec(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
 	ft_free(sp_aux);
 	//printf("sale dle CYLINDERO\n");
 	

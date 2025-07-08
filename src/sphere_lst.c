@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:08:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/02 15:38:50 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:30:15 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_free_sp(t_parse *p)
 	while (p->sp)
 	{
 		aux = p->sp->next;
-		printf("freed a sphere\n");
+		//printf("freed a sphere\n");
 		free(p->sp);
 		p->sp = aux;
 	}
@@ -58,7 +58,7 @@ void	ft_sphadd_front(t_sph **lst, t_sph *new)
 	*lst = new;
 }
 
-t_sph	*ft_sphnew(t_point p, float d, t_color c)
+t_sph	*ft_sphnew(t_vec p, float d, t_color c)
 {
 	t_sph	*new_node;
 
@@ -69,7 +69,7 @@ t_sph	*ft_sphnew(t_point p, float d, t_color c)
 	new_node->point = p;
 	new_node->diam = d;
 	new_node->next = NULL;
-	printf("created a sphere\n");
+	//printf("created a sphere\n");
 	return (new_node);
 }
 

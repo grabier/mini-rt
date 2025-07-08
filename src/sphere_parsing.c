@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:25:17 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/02 17:54:47 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:30:15 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_parse_sphere(char **sp, t_parse *p)
 {
-	t_point point;
+	t_vec point;
 	t_color c;
 	char	**sp_aux;
 	char	**sp_aux2;
@@ -27,7 +27,7 @@ int	ft_parse_sphere(char **sp, t_parse *p)
 	f = ft_atof(sp_aux[0]);
 	if (!ft_check_point(f, ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
 		return (printf("sp point invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
-	point = ft_init_point(f, ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
+	point = ft_init_vec(f, ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
 
 	
 	f = ft_atof(sp[2]);
@@ -45,9 +45,9 @@ int	ft_parse_sphere(char **sp, t_parse *p)
 	return (ft_free(sp_aux),ft_free(sp_aux2), ft_free(sp), 1);
 }
 
-t_point ft_init_point(float x, float y, float z)
+t_vec ft_init_vec(float x, float y, float z)
 {
-	t_point p;
+	t_vec p;
 
 	p.x = x;
 	p.y = y;

@@ -24,6 +24,7 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/plane_parsing.c \
 	   $(SRC_DIR)/cylinder_lst.c \
 	   $(SRC_DIR)/cylinder_parsing.c \
+	   $(SRC_DIR)/t_vec_ops_1.c \
 
 OBJ_DIR = ./obj
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
