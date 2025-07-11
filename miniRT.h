@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/10 16:15:55 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/11 20:06:14 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_sph
 	t_vec			point;
 	double			diam;
 	t_color			color;
+	t_color			pixel_color;
 	int				is_colission;
 	t_vec			colission;
 	struct s_sph	*next;
@@ -217,3 +218,6 @@ int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp);
 int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d);
 int	ft_intersects_sp(t_ray ray, t_sph *sp);
 int		ft_sp_intersection(t_ray ray, t_parse *pr);
+
+int		ft_sp_intersection_vector(t_ray ray, t_parse *pr);
+void ft_sp_colission_to_light(t_sph *sp, t_parse *p);
