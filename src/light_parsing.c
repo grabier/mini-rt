@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:06:00 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/03 18:30:15 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/08 21:29:22 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ int	ft_parse_light(char **sp, t_parse *program)
 {
 	char	**sp_aux;
 	char	**sp_aux2;
-	float	f;
+	double	f;
 	int		n;
 
 	//printf("sp1: %s\n", sp[0]);
 	sp_aux = ft_split(sp[1], ',');
-	f = ft_atof(sp_aux[0]);
-	if(!ft_init_t_vec_li(program, f, ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
+	f = ft_atod(sp_aux[0]);
+	if(!ft_init_t_vec_li(program, f, ft_atod(sp_aux[1]), ft_atod(sp_aux[2])))
 		return (printf("light point invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
-	f = ft_atof(sp[2]);//2.232323 for error
+	f = ft_atod(sp[2]);//2.232323 for error
 	if(f < 0.0 || f > 1.0 || fabs(f - 2.232323) < 0.0001)
 		return (printf("light ratio invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
 	program->l_bright = f;
@@ -42,7 +42,7 @@ int	ft_parse_light(char **sp, t_parse *program)
 	return (ft_free(sp_aux),ft_free(sp_aux2), ft_free(sp), 1);
 }
 
-int	ft_init_t_vec_li(t_parse *program, float x, float y, float z)
+int	ft_init_t_vec_li(t_parse *program, double x, double y, double z)
 {
 	if (fabs(x - 2.232323) < 0.0001 || fabs(y - 2.232323) < 0.0001 || fabs(z - 2.232323) < 0.0001)
 		return (0);

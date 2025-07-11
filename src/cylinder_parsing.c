@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:26:21 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/03 18:30:15 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/08 21:25:57 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,23 @@ int	ft_parse_cylinder(char **sp, t_parse *p)
 
 	//printf("entra al CYLINDERO\n");
 	sp_aux = ft_split(sp[1], ',');
-	if (!ft_check_point(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
+	if (!ft_check_point(ft_atod(sp_aux[0]), ft_atod(sp_aux[1]), ft_atod(sp_aux[2])))
 		return (printf("cy point invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
-	a.point = ft_init_vec(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
+	a.point = ft_init_vec(ft_atod(sp_aux[0]), ft_atod(sp_aux[1]), ft_atod(sp_aux[2]));
 	ft_free(sp_aux);
 	
 	sp_aux = ft_split(sp[2], ',');
-	if (!ft_check_n_vector(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
+	if (!ft_check_n_vector(ft_atod(sp_aux[0]), ft_atod(sp_aux[1]), ft_atod(sp_aux[2])))
 		return (printf("cy normal vector invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
-	a.n_vector = ft_init_vec(ft_atof(sp_aux[0]), ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
+	a.n_vector = ft_init_vec(ft_atod(sp_aux[0]), ft_atod(sp_aux[1]), ft_atod(sp_aux[2]));
 	ft_free(sp_aux);
 	//printf("sale dle CYLINDERO\n");
 	
-	a.diam = ft_atof(sp[3]);
+	a.diam = ft_atod(sp[3]);
 	if (a.diam <= 0 || fabs(a.diam - 2.232323) < 0.0001)
 		return (printf("cy diam invalid\n"), ft_free(sp), 0);
 
-	a.height = ft_atof(sp[4]);
+	a.height = ft_atod(sp[4]);
 	if (a.diam <= 0 || fabs(a.diam - 2.232323) < 0.0001)
 		return (printf("cy height invalid\n"), ft_free(sp), 0);
 

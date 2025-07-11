@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:08:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/03 18:30:15 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/08 21:29:33 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_sphadd_front(t_sph **lst, t_sph *new)
 	*lst = new;
 }
 
-t_sph	*ft_sphnew(t_vec p, float d, t_color c)
+t_sph	*ft_sphnew(t_vec p, double d, t_color c)
 {
 	t_sph	*new_node;
 

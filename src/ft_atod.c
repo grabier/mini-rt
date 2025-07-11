@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atof.c                                          :+:      :+:    :+:   */
+/*   ft_atod.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 19:36:39 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/08 21:23:16 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/08 21:27:24 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ static int	skip_spaces_and_sign(const char *str, int *i, int *sign)
 	return (0);
 }
 
-static float	parse_integer_part(const char *str, int *i)
+static double	parse_integer_part(const char *str, int *i)
 {
-	float	result;
+	double	result;
 	int		index;
 
 	result = 0.0f;
@@ -47,10 +47,10 @@ static float	parse_integer_part(const char *str, int *i)
 	return (result);
 }
 
-static float	parse_fractional_part(const char *str, int *i)
+static double	parse_fractional_part(const char *str, int *i)
 {
-	float	fraction;
-	float	divisor;
+	double	fraction;
+	double	divisor;
 	int		index;
 
 	fraction = 0.0f;
@@ -66,7 +66,7 @@ static float	parse_fractional_part(const char *str, int *i)
 	return (fraction);
 }
 
-static float	apply_exponent(char *str, int *i, float result, int exp_sign)
+static double	apply_exponent(char *str, int *i, double result, int exp_sign)
 {
 	int		exponent;
 	int		index;
@@ -94,7 +94,7 @@ static float	apply_exponent(char *str, int *i, float result, int exp_sign)
 	return (result);
 }
 
-int	ft_float_check(char *str)
+int	ft_double_check(char *str)
 {
 	int	i;
 	int	cont;
@@ -116,15 +116,15 @@ int	ft_float_check(char *str)
 	return (1);
 }
 
-float	ft_atof(char *str)
+double	ft_atod(char *str)
 {
 	int		i;
 	int		sign;
-	float	result;
-	float	fraction;
+	double	result;
+	double	fraction;
 
 	i = 0;
-	if (!ft_float_check(str))
+	if (!ft_double_check(str))
 		return (2.232323);
 	sign = 1;
 	skip_spaces_and_sign(str, &i, &sign);
@@ -144,7 +144,7 @@ float	ft_atof(char *str)
 
 int main(int argc, char **argv)
 {
-	float a = ft_atof(argv[1]);
+	float a = ft_atod(argv[1]);
 	printf("result : %f\n", a);
 	return (0);
 } */

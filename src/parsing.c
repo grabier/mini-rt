@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/07 15:12:21 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:47:21 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ t_parse *ft_init_parse()
 	parse->sp = NULL;
 	parse->pl = NULL;
 	parse->cy = NULL;
+	parse->data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
+	parse->img = mlx_new_image(parse->data, MAX_W, MAX_H);
 	return (parse);
 }
 

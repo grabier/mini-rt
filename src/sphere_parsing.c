@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:25:17 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/03 18:30:15 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/08 21:29:43 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ int	ft_parse_sphere(char **sp, t_parse *p)
 	t_color c;
 	char	**sp_aux;
 	char	**sp_aux2;
-	float	f;
+	double	f;
 	//int		n;
 	//t_sph	*head;
 
 	//head = p->sp;
 	sp_aux = ft_split(sp[1], ',');
-	f = ft_atof(sp_aux[0]);
-	if (!ft_check_point(f, ft_atof(sp_aux[1]), ft_atof(sp_aux[2])))
+	f = ft_atod(sp_aux[0]);
+	if (!ft_check_point(f, ft_atod(sp_aux[1]), ft_atod(sp_aux[2])))
 		return (printf("sp point invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
-	point = ft_init_vec(f, ft_atof(sp_aux[1]), ft_atof(sp_aux[2]));
+	point = ft_init_vec(f, ft_atod(sp_aux[1]), ft_atod(sp_aux[2]));
 
 	
-	f = ft_atof(sp[2]);
+	f = ft_atod(sp[2]);
 	if (f <= 0 || fabs(f - 2.232323) < 0.0001)
 		return (printf("sp diam invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
 
@@ -45,7 +45,7 @@ int	ft_parse_sphere(char **sp, t_parse *p)
 	return (ft_free(sp_aux),ft_free(sp_aux2), ft_free(sp), 1);
 }
 
-t_vec ft_init_vec(float x, float y, float z)
+t_vec ft_init_vec(double x, double y, double z)
 {
 	t_vec p;
 
@@ -87,7 +87,7 @@ t_color ft_init_color(char **sp)
 	return (color);
 }
 
-int	ft_check_point(float x, float y, float z)
+int	ft_check_point(double x, double y, double z)
 {
 	//printf("check_point: \n");
 	//printf("x: %f, y: %f, z: %f\n", x, y, z);

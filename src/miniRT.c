@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/08 20:00:08 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:55:10 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 uint32_t	rgb_to_hex_alpha(t_color color)
 {
-	return (color.b << 24) | (color.g << 16) |
-			(color.r << 8) | 0xFF;
+	return (color.r << 24) | (color.g << 16) |
+			(color.b << 8) | 255;
 }
 
 void ft_draw_gradient()
@@ -23,7 +23,9 @@ void ft_draw_gradient()
 	mlx_t	*data;
 	mlx_image_t	*img;
 	t_color color;
-
+	color.r = (int)(135);
+	color.g = (int)(206);
+	color.b = (int)(235);	
 	data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
 	img = mlx_new_image(data, MAX_W, MAX_H);
 	if (!data || !img){
@@ -32,17 +34,14 @@ void ft_draw_gradient()
 	}
 	for(int j = 0; j < MAX_W; j++){
 		for (int i = 0; i < MAX_H; i++){
-			double r = (double)(j) / (MAX_W - 1);
+			/* double r = (double)(j) / (MAX_W - 1);
 			double g = (double)(i) / (MAX_H - 1);
-			double b = 0.0;
+			double b = 0.0; */
 
-			color.r = (int)(255.999 * r);
-			color.g = (int)(255.999 * g);
-			color.b = (int)(255.999 * b);
+			
 			mlx_put_pixel(img, j, i, rgb_to_hex_alpha(color));
 		}
 	}
-
 	mlx_image_to_window(data, img, 0, 0);
 	mlx_loop(data);
 }
@@ -58,7 +57,7 @@ void	ft_debug_parsing(t_parse *p)
 	printf("cam_fov: %f\n", p->cam->fov / (PI / 180));
 	printf("L:	light_vec: %f, %f, %f		light_ratio: %f\t\t light_color: %i , %i , %i\n", p->l_point.x, p->l_point.y, p->l_point.z, p->l_bright, p->l_color.r, p->l_color.g, p->l_color.b);
 	printf("viewport data: center: (%f, %f, %f)\t\t lower_left: (%f, %f, %f)\n"
-		, p->cam->center.x, p->cam->center.y, p->cam->center.z, p->cam->lower_left.x, p->cam->lower_left.y, p->cam->lower_left.z);
+		, p->cam->center.x, p->cam->center.y, p->cam->center.z, p->cam->ll.x, p->cam->ll.y, p->cam->ll.z);
 	printf("viewport data: vertical: (%f, %f, %f)\t\t horizontal: (%f, %f, %f)\n"
 		, p->cam->ver.x, p->cam->ver.y, p->cam->ver.z, p->cam->hor.x, p->cam->hor.y, p->cam->hor.z);
 	printf("vp_h: %f, vp_w: %f\n", p->cam->vp_h, p->cam->vp_w);
@@ -94,6 +93,54 @@ void	ft_debug_parsing(t_parse *p)
 	}
 }
 
+void	ft_print_sp_pixel(t_parse *p, t_sph *sp, int i, int j)
+{
+	if (i == 800 && j == 600){
+		printf("DETECTAMOS HIT\n");
+		printf("color: %X\n", rgb_to_hex_alpha(sp->color));
+	}
+	(void)p;
+	mlx_put_pixel(p->img, j, i, rgb_to_hex_alpha(sp->color));
+}
+
+void	ft_render_loop(t_parse *pr)
+{
+	int		j;
+	int		i;
+	t_ray	ray;
+	//t_color	color;
+
+	i = 0;
+	j = 0;
+	while (j < MAX_H)
+	{
+		i = 0;
+		while (i < MAX_W)
+		{
+			ray = ft_calc_ray(i, j, pr);
+			if (ft_sp_intersection(ray, pr))
+			{
+				if (ft_intersects_sp(ray, pr->sp))
+					ft_print_sp_pixel(pr, pr->sp, i, j);
+			}
+			else
+			{
+				if (i == 0 && j == 600)
+				{
+					printf("no hay colisiao\n");
+					printf("color: %X\n", 0xFF0000FF);
+				}
+				mlx_put_pixel(pr->img, i, j, 0xFF87CEEB);
+			}
+			i++;
+			//mlx_put_pixel(img, j, i, ft_sp_color(ray, pr));
+		}
+		j++;
+	}
+	mlx_image_to_window(pr->data, pr->img, 0, 0);
+	mlx_loop(pr->data);
+}
+
 int main(int argc, char **argv)
 {
 	//ft_draw_gradient();
@@ -101,7 +148,17 @@ int main(int argc, char **argv)
 	if (!program)
 		return (1);
 	ft_debug_parsing(program);
-	/* ft_free_sp(program);
+	ft_render_loop(program); 
+	/* t_vec or = ft_init_vec(0, 0, 0);
+	t_vec dir = ft_init_vec(0, 0, -1);
+	t_ray ray;
+	ray.dir = dir;
+	ray.or = or; 
+	ft_intersects_sp(ray, program->sp);
+	printf("colision en : %f, %f, %f\n", 
+					program->sp->colission.x, program->sp->colission.y, program->sp->colission.z);
+	printf("determinante: %f\n", ft_calc_det(ray, program->sp)); 
+	 ft_free_sp(program);
 	ft_free_pl(program);
 	ft_free_cy(program);
 	free(program); */
