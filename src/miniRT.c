@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/11 20:36:10 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/12 17:24:45 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ mlx_image_t	*create_image_normals(t_parse *pr)
 		while (i < MAX_W)
 		{
 			ray = ft_calc_ray(i, j, pr);
-			if (ft_sp_intersection_vector(ray, pr))
+			if (ft_sp_intersection_normal(ray, pr, i, j))
 				mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->pixel_color));
 			i++;
 		}
@@ -179,13 +179,7 @@ mlx_image_t	*create_image_color(t_parse *pr)
 		{
 			ray = ft_calc_ray(i, j, pr);
 			if (ft_sp_intersection(ray, pr))
-			{
 				mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->color));
-			}
-			/*  else
-			{
-				mlx_put_pixel(pr->img, i, j, 0xFF87CEEB);
-			} */
 			i++;
 		}
 		j++;
@@ -193,12 +187,29 @@ mlx_image_t	*create_image_color(t_parse *pr)
 	return (pr->img);
 }
 
+void display_sp_normals(t_parse *pr)
+{
+	int	i;
+	t_sph	*aux;
+
+	i = 0;
+	aux = pr->sp;
+	while (i < pr->sp_count)
+	{
+		mlx_image_to_window(pr->data, aux->normals, 0, 0);
+		aux = aux->next;
+		i++;
+	}
+}
 void	ft_render_loop(t_parse *pr, mlx_image_t *color, mlx_image_t *normals)
 {
 
-	
-	mlx_image_to_window(pr->data, color, 0, 0);
-	mlx_image_to_window(pr->data, normals, 0, 0);
+	(void)color;
+	(void)normals;
+	display_sp_normals(pr);
+	//mlx_image_to_window(pr->data, pr->sp->normals, 0, 0);
+	//mlx_image_to_window(pr->data, color, 0, 0);
+	//mlx_image_to_window(pr->data, normals, 0, 0);
 	//mlx_image_to_window(pr->data, shadows, 0, 0);
 	//shadows->enabled = false;
 	mlx_loop(pr->data);

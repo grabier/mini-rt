@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:25:17 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/08 21:29:43 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/12 17:18:12 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_parse_sphere(char **sp, t_parse *p)
 	c = ft_init_color(sp_aux2);
 
 	
-	ft_sphadd_back(&p->sp, ft_sphnew(point, f, c));
+	ft_sphadd_back(&p->sp, ft_sphnew(point, f, c, p));
 	p->sp_count++;
 	return (ft_free(sp_aux),ft_free(sp_aux2), ft_free(sp), 1);
 }

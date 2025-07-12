@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/11 20:06:14 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/12 17:35:29 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_sph
 	t_color			pixel_color;
 	int				is_colission;
 	t_vec			colission;
+	mlx_image_t		*normals;
 	struct s_sph	*next;
 }			t_sph;
 
@@ -164,7 +165,7 @@ t_parse	*ft_parsing(int argc, char **argv);
 //sphere_lst.c
 void	ft_sphadd_back(t_sph **lst, t_sph *new);
 void	ft_sphadd_front(t_sph **lst, t_sph *new);
-t_sph	*ft_sphnew(t_vec p, double d, t_color c);
+t_sph	*ft_sphnew(t_vec p, double d, t_color c, t_parse *parse);
 int		ft_sphsize(t_sph *lst);
 void	ft_free_sp(t_parse *p);
 
@@ -219,5 +220,6 @@ int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d);
 int	ft_intersects_sp(t_ray ray, t_sph *sp);
 int		ft_sp_intersection(t_ray ray, t_parse *pr);
 
-int		ft_sp_intersection_vector(t_ray ray, t_parse *pr);
+int		ft_sp_intersection_normal(t_ray ray, t_parse *pr, int x, int y);
 void ft_sp_colission_to_light(t_sph *sp, t_parse *p);
+uint32_t	rgb_to_hex_alpha(t_color color);

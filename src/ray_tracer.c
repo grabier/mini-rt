@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:53:11 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/11 20:27:06 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/12 17:44:06 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,20 @@ int		ft_sp_intersection(t_ray ray, t_parse *pr)
 	//printf("number of colissions: %i\n", intersects);
 	return (intersects);
 }
-int		ft_sp_intersection_vector(t_ray ray, t_parse *pr)
+uint32_t	calc_norm_color(t_sph *sp)
+{
+	t_vec	normal;
+	t_color	color;
+
+	normal = norm(sub(sp->colission, sp->point));
+	// return 0.5*color(N.x()+1, N.y()+1, N.z()+1);
+	color.r = sp->color.r * (0.5 * (normal.x + 1));
+	color.g = sp->color.g * (0.5 * (normal.y + 1));
+	color.b = sp->color.b * (0.5 * (normal.z + 1));
+
+	return(rgb_to_hex_alpha(color));
+}
+int		ft_sp_intersection_normal(t_ray ray, t_parse *pr, int x, int y)
 {
 	t_sph	*aux;
 	int		i;
@@ -127,12 +140,16 @@ int		ft_sp_intersection_vector(t_ray ray, t_parse *pr)
 	i = 0;
 	intersects = 0;
 	aux = pr->sp;
+	(void)x;
+	(void)y;
 	while (i < pr->sp_count)
 	{
 		if (ft_intersects_sp(ray, aux))
 		{
 			intersects++;
-			ft_sp_colission_to_light(aux, pr);
+			mlx_put_pixel(aux->normals, x, y, calc_norm_color(aux));
+			//mlx_put_pixel(aux->normals, x, y, 0xFFE66DFF);
+			//ft_sp_colission_to_light(aux, pr);
 		}
 		aux = aux->next;
 		i++;
