@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/11 20:36:10 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/15 21:10:37 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 uint32_t	rgb_to_hex_alpha(t_color color)
 {
-	return (color.b << 24) | (color.g << 16) |
-		   (color.r << 8) | 255;
+	return ((color.r << 24) | (color.g << 16) |
+		   (color.b << 8) | 255);
 }
 
 /* uint32_t	rgb_to_hex_alpha(t_color color)
@@ -24,14 +24,14 @@ uint32_t	rgb_to_hex_alpha(t_color color)
 			(color.b << 8) | 255;
 } */
 
-void ft_draw_gradient()
+/* void ft_draw_gradient()
 {
 	mlx_t	*data;
 	mlx_image_t	*img;
 	t_color color;
-	/* color.r = (int)(135);
+	color.r = (int)(135);
 	color.g = (int)(206);
-	color.b = (int)(235);	 */
+	color.b = (int)(235);	
 	data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
 	img = mlx_new_image(data, MAX_W, MAX_H);
 	if (!data || !img){
@@ -40,9 +40,9 @@ void ft_draw_gradient()
 	}
 	for(int j = 0; j < MAX_W; j++){
 		for (int i = 0; i < MAX_H; i++){
-			/* double r = (double)(j) / (MAX_W - 1);
+			double r = (double)(j) / (MAX_W - 1);
 			double g = (double)(i) / (MAX_H - 1);
-			double b = 0.0; */
+			double b = 0.0;
 
 			
 			mlx_put_pixel(img, j, i, rgb_to_hex_alpha(color));
@@ -50,7 +50,7 @@ void ft_draw_gradient()
 	}
 	mlx_image_to_window(data, img, 0, 0);
 	mlx_loop(data);
-}
+} */
 
 void	ft_debug_parsing(t_parse *p)
 {
@@ -109,38 +109,17 @@ void	ft_print_sp_pixel(t_parse *p, t_sph *sp, int i, int j)
 	mlx_put_pixel(p->img, j, i, rgb_to_hex_alpha(sp->color));
 }
 
-mlx_image_t	*create_image_shadow(t_parse *pr)
+void ft_printcolor(t_color c)
 {
-	int		j;
-	int		i;
-	t_ray	ray;
-	//t_color	color;
-
-	i = 200;
-	j = 400;
-	while (j < MAX_H)
-	{
-		i = 0;
-		while (i < MAX_W)
-		{
-			ray = ft_calc_ray(i, j, pr);
-			if (ft_sp_intersection(ray, pr))
-			{
-				mlx_put_pixel(pr->img, i, j, 0xffff000a);
-			}
-			/*  else
-			{
-				mlx_put_pixel(pr->img, i, j, 0xFF87CEEB);
-			} */
-			i++;
-		}
-		j++;
-	}
-	return (pr->img);
+	printf("R: %i	\t", c.r);
+	printf("G: %i	\t", c.g);
+	printf("B: %i	\n", c.b);
 }
 
-mlx_image_t	*create_image_normals(t_parse *pr)
+
+void	ft_render_loop(t_parse *pr)
 {
+
 	int		j;
 	int		i;
 	t_ray	ray;
@@ -154,82 +133,33 @@ mlx_image_t	*create_image_normals(t_parse *pr)
 		while (i < MAX_W)
 		{
 			ray = ft_calc_ray(i, j, pr);
-			if (ft_sp_intersection_vector(ray, pr))
-				mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->pixel_color));
-			i++;
-		}
-		j++;
-	}
-	return (pr->img);
-}
-
-mlx_image_t	*create_image_color(t_parse *pr)
-{
-	int		j;
-	int		i;
-	t_ray	ray;
-	//t_color	color;
-
-	i = 0;
-	j = 0;
-	while (j < MAX_H)
-	{
-		i = 0;
-		while (i < MAX_W)
-		{
-			ray = ft_calc_ray(i, j, pr);
-			if (ft_sp_intersection(ray, pr))
+			if (ft_sp_intersection(ray, pr, i, j))
 			{
-				mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->color));
+				//ft_printcolor(pr->sp->pixel_color);
+				i = i;
+				//mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->pixel_color));
 			}
-			/*  else
-			{
-				mlx_put_pixel(pr->img, i, j, 0xFF87CEEB);
-			} */
+			else
+				mlx_put_pixel(pr->img, i, j, 0xFF000000);
+
 			i++;
 		}
 		j++;
 	}
-	return (pr->img);
-}
+	mlx_image_to_window(pr->data, pr->img, 0, 0);
 
-void	ft_render_loop(t_parse *pr, mlx_image_t *color, mlx_image_t *normals)
-{
-
-	
-	mlx_image_to_window(pr->data, color, 0, 0);
-	mlx_image_to_window(pr->data, normals, 0, 0);
-	//mlx_image_to_window(pr->data, shadows, 0, 0);
-	//shadows->enabled = false;
 	mlx_loop(pr->data);
 }
 
 int main(int argc, char **argv)
 {
-	mlx_image_t *color;
-	mlx_image_t *normals;
-	//mlx_image_t *shadows;
 	//ft_draw_gradient();
 	t_parse * program = ft_parsing(argc, argv);
 	if (!program)
 		return (1);
-	color = create_image_color(program);
-	normals = create_image_normals(program);
-	//shadows = create_image_shadow(program);
-	//ft_debug_parsing(program);
-	ft_render_loop(program, color, normals); 
-	/* t_vec or = ft_init_vec(0, 0, 0);
-	t_vec dir = ft_init_vec(0, 0, -1);
-	t_ray ray;
-	ray.dir = dir;
-	ray.or = or; 
-	ft_intersects_sp(ray, program->sp);
-	printf("colision en : %f, %f, %f\n", 
-					program->sp->colission.x, program->sp->colission.y, program->sp->colission.z);
-	printf("determinante: %f\n", ft_calc_det(ray, program->sp)); 
-	 ft_free_sp(program);
-	ft_free_pl(program);
-	ft_free_cy(program);
-	free(program); */
+	printf("up: \t");
+	printv(program->cam->up);
+	//program->cam->up.y *= -1;
+	ft_render_loop(program); 
 	return (ft_free_parsing(program), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/11 20:06:14 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/15 21:00:42 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ int		ft_parse_cylinder(char **sp, t_parse *p);
 
 //t_vec_ops_1.c
 t_vec	cross(t_vec a, t_vec b);
+double	vlen(t_vec v);
 t_vec	norm(t_vec v);
 t_vec	scale(double f, t_vec v);
 t_vec	add(t_vec a, t_vec b);
@@ -216,8 +217,18 @@ double	ft_calc_det(t_ray ray, t_sph *sp);
 t_vec	ft_get_ray_point(t_ray ray, double t);
 int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp);
 int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d);
-int	ft_intersects_sp(t_ray ray, t_sph *sp);
-int		ft_sp_intersection(t_ray ray, t_parse *pr);
-
-int		ft_sp_intersection_vector(t_ray ray, t_parse *pr);
+int	ft_there_is_colission_sp(t_ray ray, t_sph *sp);
+int		ft_sp_intersection(t_ray ray, t_parse *pr, int x, int j);
 void ft_sp_colission_to_light(t_sph *sp, t_parse *p);
+
+void ft_printcolor(t_color c);
+
+//sphere_light.c
+void	sp_light_calc(t_sph *sp, t_parse *p);
+t_color sp_diffuse(t_sph *sp, t_parse *p, t_vec	normal);
+t_color sp_ambient(t_sph *sp, t_parse *p);
+
+//in_shadow.c
+int	ft_in_shadow(t_vec c, t_parse *p);
+
+uint32_t	rgb_to_hex_alpha(t_color color);
