@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/09 19:47:21 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:56:37 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,6 @@ int	ft_parse_line(char *line, t_parse *program)
 		return (ft_free(spline), 1);
 	else
 		return (ft_free(spline), 0);
-}
-
-t_parse *ft_init_parse()
-{
-	t_parse	*parse;
-
-	parse = malloc(sizeof(t_parse));
-	parse->A = 0;
-	parse->C = 0;
-	parse->L = 0;
-	parse->sp_count = 0;
-	parse->pl_count = 0;
-	parse->cy_count = 0;
-	parse->sp = NULL;
-	parse->pl = NULL;
-	parse->cy = NULL;
-	parse->data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
-	parse->img = mlx_new_image(parse->data, MAX_W, MAX_H);
-	return (parse);
 }
 
 t_parse	*ft_read_file(int fd)
@@ -103,6 +84,8 @@ t_parse	*ft_free_parsing(t_parse *p)
 	ft_free_pl(p);
 	ft_free_cy(p);
 	free(p->cam);
+	if (p->render_queue)
+		free_render_queue(p);
 	free(p);
 	return (NULL);
 }

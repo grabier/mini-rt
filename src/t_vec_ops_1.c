@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   t_vec_ops_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:31:16 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/09 20:10:50 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:12:04 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
+
+double vlen(t_vec v)
+{
+	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
+}
 
 t_vec cross(t_vec a, t_vec b)//return a vector orthogonal to a and b
 {

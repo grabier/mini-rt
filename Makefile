@@ -19,6 +19,7 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/light_parsing.c \
 	   $(SRC_DIR)/utils1.c \
 	   $(SRC_DIR)/sphere_lst.c \
+	   $(SRC_DIR)/sphere_light.c \
 	   $(SRC_DIR)/sphere_parsing.c \
 	   $(SRC_DIR)/plane_lst.c \
 	   $(SRC_DIR)/plane_parsing.c \
@@ -26,6 +27,8 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/cylinder_parsing.c \
 	   $(SRC_DIR)/t_vec_ops_1.c \
 	   $(SRC_DIR)/ray_tracer.c \
+	   $(SRC_DIR)/render_queue.c \
+	   $(SRC_DIR)/init.c \
 
 OBJ_DIR = ./obj
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

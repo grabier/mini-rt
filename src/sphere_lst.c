@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:08:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/12 17:19:59 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/16 13:18:26 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_sph	*ft_sphnew(t_vec p, double d, t_color c, t_parse *parse)
 	new_node->point = p;
 	new_node->diam = d;
 	new_node->next = NULL;
-	new_node->normals = mlx_new_image(parse->data, MAX_W, MAX_H);
+	new_node->diffuse = mlx_new_image(parse->data, MAX_W, MAX_H);
 	//printf("created a sphere\n");
 	return (new_node);
 }

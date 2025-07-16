@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/12 17:35:29 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/16 15:42:04 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_sph
 	t_color			pixel_color;
 	int				is_colission;
 	t_vec			colission;
-	mlx_image_t		*normals;
+	mlx_image_t		*diffuse;
 	struct s_sph	*next;
 }			t_sph;
 
@@ -59,6 +59,7 @@ typedef struct s_pl
 	t_vec			point;
 	t_vec			n_vector;
 	t_color			color;
+	mlx_image_t		*diffuse;
 	struct s_pl		*next;
 }			t_pl;
 
@@ -69,6 +70,7 @@ typedef struct s_cy
 	double			diam;
 	double			height;
 	t_color			color;
+	mlx_image_t		*diffuse;
 	struct s_cy		*next;
 }			t_cy;
 
@@ -98,6 +100,13 @@ typedef struct s_aux
 	t_color			color;
 }			t_aux;
 
+typedef struct s_render_queue
+{
+	mlx_image_t	*img;
+	t_vec			point;
+	double			diam;
+}		t_render_queue;
+
 typedef struct s_parse
 {
 	mlx_t	*data;
@@ -119,6 +128,7 @@ typedef struct s_parse
 	int		cy_count;
 	t_cy	*cy;
 	t_color	cy_color;
+	t_render_queue **render_queue;
 }			t_parse;
 
 //ft_atod.c
@@ -205,6 +215,7 @@ int		ft_parse_cylinder(char **sp, t_parse *p);
 
 //t_vec_ops_1.c
 t_vec	cross(t_vec a, t_vec b);
+double	vlen(t_vec v);
 t_vec	norm(t_vec v);
 t_vec	scale(double f, t_vec v);
 t_vec	add(t_vec a, t_vec b);
@@ -217,9 +228,22 @@ double	ft_calc_det(t_ray ray, t_sph *sp);
 t_vec	ft_get_ray_point(t_ray ray, double t);
 int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp);
 int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d);
-int	ft_intersects_sp(t_ray ray, t_sph *sp);
-int		ft_sp_intersection(t_ray ray, t_parse *pr);
-
-int		ft_sp_intersection_normal(t_ray ray, t_parse *pr, int x, int y);
+int	ft_there_is_colission_sp(t_ray ray, t_sph *sp);
+int		ft_sp_intersection(t_ray ray, t_parse *pr, int x, int j);
 void ft_sp_colission_to_light(t_sph *sp, t_parse *p);
+
+void ft_printcolor(t_color c);
+
+//sphere_light.c
+void	sp_light_calc(t_sph *sp, t_parse *p);
+t_color sp_diffuse(t_sph *sp, t_parse *p, t_vec	normal);
+t_color sp_ambient(t_sph *sp, t_parse *p);
+
 uint32_t	rgb_to_hex_alpha(t_color color);
+
+//render_queue.c
+t_render_queue	**init_render_queue(t_parse *program);
+//void	fill_render_queue(t_parse *pr, t_pl **lst);
+void	fill_render_queue(t_parse *pr);
+void 	sort_render_queue(t_render_queue **queue, int size);
+void	free_render_queue(t_parse *pr);

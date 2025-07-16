@@ -6,10 +6,11 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:53:11 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/12 17:44:06 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/16 13:18:39 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../miniRT.h"
 #include "../miniRT.h"
 
 double	ft_calc_det(t_ray ray, t_sph *sp)//h² - ac->determinante
@@ -19,10 +20,14 @@ double	ft_calc_det(t_ray ray, t_sph *sp)//h² - ac->determinante
 	double	c;
 	t_vec	aux;
 
-	//printv(ray.dir);
+/* 	printf("ray.dir: \t");
+	printv(ray.dir);
+	printf("O - S: \t");
+	printv(sub(ray.or, sp->point)); */
 	h = dot(ray.dir, sub(ray.or, sp->point));
 	a = dot(ray.dir, ray.dir);
-	//printf("a= %f\n", a);
+	/* printf("a= %f\n", a);
+	printf("h= %f\n", h); */
 	aux = sub(ray.or, sp->point);
 	//aux = add(sp->point, scale(-1, ray.or));
 	c = dot(aux, aux) - ((sp->diam / 2) * (sp->diam / 2));
@@ -30,41 +35,21 @@ double	ft_calc_det(t_ray ray, t_sph *sp)//h² - ac->determinante
 	return (h * h - a * c);
 }
 
-t_vec	ft_get_ray_point(t_ray ray, double t)
-{
-	t_vec	v;
-
-	v = add(ray.or, scale(t, ray.dir));
-	return (v);
-}
-
-void ft_sp_colission_to_light(t_sph *sp, t_parse *p)
-{
-	//t_ray	to_light;
-	t_vec	normal;
-	double intensity;
-
-	normal = norm(sub(sp->colission, sp->point));
-	intensity = fmax(0, dot(normal, p->l_point));
-	sp->pixel_color.r = sp->color.r * intensity;
-	sp->pixel_color.g = sp->color.g * intensity;
-	sp->pixel_color.b = sp->color.b * intensity;
-}
-
 int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp)
 {
-	double	t;
+	//double	t;
+	t_vec	p1;
+	t_vec	p2;
 
 	//printf("t1: %f, t2: %f\n", t1, t2);
 	if (t1 > 0 && t2 > 0)//sphere in front of cam
 	{
-		if (t1 > t2)
-			t = t2;
+		p1 = add(ray.or, scale(t1, ray.dir));
+		p2 = add(ray.or, scale(t2, ray.dir));
+		if (vlen(sub(p1, ray.or)) > vlen(sub(p2, ray.or)))
+			sp->colission = p2;
 		else
-			t = t1;
-		//printf("llega aki???\n");
-		sp->colission = ft_get_ray_point(ray, t);
-		//ft_sp_colission_to_light(sp);
+			sp->colission = p1;
 		return (1);
 	}
 	return (0);
@@ -80,11 +65,13 @@ int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d)
 	h = dot(ray.dir, sub(ray.or, sp->point));
 	a = dot(ray.dir, ray.dir);
 	t1 = (-h + sqrt(d)) / a;
+	//printf("t1: %f\t", t1);
 	t2 = (-h - sqrt(d)) / a;
+	//printf("t2: %f\n", t2);
 	return (ft_calc_point_sp(t1, t2, ray, sp));
 }
 
-int	ft_intersects_sp(t_ray ray, t_sph *sp)
+int	ft_there_is_colission_sp(t_ray ray, t_sph *sp)
 {
 	double	det;
 
@@ -99,7 +86,7 @@ int	ft_intersects_sp(t_ray ray, t_sph *sp)
 	return (0);
 }
 
-int		ft_sp_intersection(t_ray ray, t_parse *pr)
+int		ft_sp_intersection(t_ray ray, t_parse *pr, int x, int j)
 {
 	t_sph	*aux;
 	int		i;
@@ -108,48 +95,15 @@ int		ft_sp_intersection(t_ray ray, t_parse *pr)
 	i = 0;
 	intersects = 0;
 	aux = pr->sp;
-	while (i < pr->sp_count)
+	while (aux)
 	{
-		if (ft_intersects_sp(ray, aux))
-			intersects++;
-		aux = aux->next;
-		i++;
-	}
-	//printf("number of colissions: %i\n", intersects);
-	return (intersects);
-}
-uint32_t	calc_norm_color(t_sph *sp)
-{
-	t_vec	normal;
-	t_color	color;
-
-	normal = norm(sub(sp->colission, sp->point));
-	// return 0.5*color(N.x()+1, N.y()+1, N.z()+1);
-	color.r = sp->color.r * (0.5 * (normal.x + 1));
-	color.g = sp->color.g * (0.5 * (normal.y + 1));
-	color.b = sp->color.b * (0.5 * (normal.z + 1));
-
-	return(rgb_to_hex_alpha(color));
-}
-int		ft_sp_intersection_normal(t_ray ray, t_parse *pr, int x, int y)
-{
-	t_sph	*aux;
-	int		i;
-	int		intersects;
-
-	i = 0;
-	intersects = 0;
-	aux = pr->sp;
-	(void)x;
-	(void)y;
-	while (i < pr->sp_count)
-	{
-		if (ft_intersects_sp(ray, aux))
+		if (ft_there_is_colission_sp(ray, aux))
 		{
 			intersects++;
-			mlx_put_pixel(aux->normals, x, y, calc_norm_color(aux));
-			//mlx_put_pixel(aux->normals, x, y, 0xFFE66DFF);
-			//ft_sp_colission_to_light(aux, pr);
+			sp_light_calc(aux, pr);
+			mlx_put_pixel(aux->diffuse, x, j, rgb_to_hex_alpha(aux->pixel_color));
+			/* printf("pixel color: \t");
+			ft_printcolor(pr->sp->pixel_color); */
 		}
 		aux = aux->next;
 		i++;
@@ -171,9 +125,7 @@ t_ray	ft_calc_ray(int i, int j, t_parse *pr)
 	ray.or = pr->cam->origin;
 	ray.dir = norm(dir);
 	if (i == 800 && j == 600){
-		printf("u = %f. v = %f\n", u, v);
-		printf("LL: ");
-		printv(pr->cam->ll);
+		
 		printf("R: ");
 		printv(pr->cam->hor);
 		printf("U: ");

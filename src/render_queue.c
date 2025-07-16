@@ -1,0 +1,155 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_queue.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/16 13:32:47 by aehrl             #+#    #+#             */
+/*   Updated: 2025/07/16 16:07:36 by aehrl            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../miniRT.h"
+
+void	free_render_queue(t_parse *pr)
+{
+	int			object_count;
+	int			i;
+
+	//object_count = pr->sp_count + pr->pl_count + pr->cy_count;
+	object_count = pr->sp_count;
+	i = 0;
+	while(i < object_count)
+	{
+		if (pr->render_queue[i])
+			free(pr->render_queue[i]);
+		i++;
+	}
+	free(pr->render_queue);
+}
+
+int	fill_render_queue_spheres(t_parse *pr, int i, t_sph **lst)
+{
+	int		j;
+	t_sph	*aux;
+
+	j = 1;
+	aux = *lst;
+	while (j < pr->sp_count)
+	{
+		//pr->render_queue[i]->img = aux->diffuse;
+		pr->render_queue[i]->point = aux->point;
+		pr->render_queue[i]->diam = aux->diam;
+		aux = aux->next;
+		i++;
+		j++;
+	}
+	return(i);
+}
+
+int	fill_render_queue_cylinders(t_parse *pr, int i,  t_cy **lst)
+{
+	int		j;
+	t_cy	*aux;
+
+	j = 0;
+	aux = *lst;
+	while (aux != NULL && j < pr->cy_count)
+	{
+		//pr->render_queue[i]->img = aux->diffuse;
+		pr->render_queue[i]->point = aux->point;
+		pr->render_queue[i]->diam = aux->diam;
+		aux = aux->next;
+		i++;
+		j++;
+	}
+	return(i);
+}
+
+/* void	fill_render_queue(t_parse *pr, t_pl **lst)
+{
+	int	object_count;
+	int i;
+	t_pl	*aux;
+
+	object_count = pr->sp_count + pr->pl_count + pr->cy_count;
+	i = 0;
+	i = fill_render_queue_spheres(pr, 0, &pr->sp);
+	i += fill_render_queue_cylinders(pr, i, &pr->cy);
+	aux = *lst;
+	while(aux != NULL && i < object_count)
+	{
+	//	pr->render_queue[i]->img = aux->diffuse;
+		pr->render_queue[i]->point = aux->point;
+		pr->render_queue[i]->diam = 0;
+		aux = aux->next;
+		i++;
+	}
+} */
+void	fill_render_queue(t_parse *pr)
+{
+	int	object_count;
+	int i;
+	t_sph	*aux;
+
+	object_count = pr->sp_count;
+	i = 0;
+	//i = fill_render_queue_spheres(pr, 0, &pr->sp);
+	//i += fill_render_queue_cylinders(pr, i, &pr->cy);
+	aux = pr->sp;
+	while(aux != NULL && i < object_count)
+	{
+		
+		pr->render_queue[i] = (t_render_queue *)malloc(sizeof(t_render_queue));
+		pr->render_queue[i]->img = aux->diffuse;
+		pr->render_queue[i]->point = aux->point;
+		pr->render_queue[i]->diam = 0;
+		aux = aux->next;
+		i++;
+	}
+}
+
+void sort_render_queue(t_render_queue **queue, int size)
+{
+	t_render_queue	*aux;
+	int i;
+	double	dist_a;
+	double	dist_b;
+
+	i = 0;
+	(void)queue;
+	while(i < size)
+	{
+		printf("LITTLE CHECKER\n i:%d\n", i);
+		if (i + 1 != size)
+		{
+			dist_a = vlen(queue[i]->point) - (queue[i]->diam / 2);
+			dist_b = vlen(queue[i]->point) - (queue[i + 1]->diam / 2);
+			if (dist_a > dist_b)
+			{
+				aux = queue[i + 1];
+				queue[i + 1] = queue[i];
+				queue[i] = aux;
+				i = 0;
+			}
+			else
+				i++;
+		}
+		else
+			i++;
+	}
+}
+/* void	create_render_queue(t_parse *pr)
+{
+	int	object_count;
+	int i;
+	int	swap;
+
+	object_count = program->sp_count + program->pl_count + program->cy_count;
+	i = object_count - 1;
+	while(i => 0)
+	{
+
+	}
+} */

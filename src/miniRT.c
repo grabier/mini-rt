@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/12 17:24:45 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/16 16:04:29 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,16 @@
 
 uint32_t	rgb_to_hex_alpha(t_color color)
 {
-	return (color.b << 24) | (color.g << 16) |
-		   (color.r << 8) | 255;
-}
-
-/* uint32_t	rgb_to_hex_alpha(t_color color)
-{
 	return (color.r << 24) | (color.g << 16) |
-			(color.b << 8) | 255;
-} */
+		   (color.b << 8) | 255;
+}
 
 void ft_draw_gradient()
 {
 	mlx_t	*data;
 	mlx_image_t	*img;
 	t_color color;
-	/* color.r = (int)(135);
-	color.g = (int)(206);
-	color.b = (int)(235);	 */
+
 	data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
 	img = mlx_new_image(data, MAX_W, MAX_H);
 	if (!data || !img){
@@ -40,11 +32,6 @@ void ft_draw_gradient()
 	}
 	for(int j = 0; j < MAX_W; j++){
 		for (int i = 0; i < MAX_H; i++){
-			/* double r = (double)(j) / (MAX_W - 1);
-			double g = (double)(i) / (MAX_H - 1);
-			double b = 0.0; */
-
-			
 			mlx_put_pixel(img, j, i, rgb_to_hex_alpha(color));
 		}
 	}
@@ -88,7 +75,6 @@ void	ft_debug_parsing(t_parse *p)
 	i = 0;
 	while (aux3)
 	{
-		//printf("debug_cilindro\n");
 		printf("cy[%i]: cy_point: %f, %f, %f\t\t", i, aux3->point.x, aux3->point.y, aux3->point.z);
 		printf("cy_n_vec: %f, %f, %f\t\t", aux3->n_vector.x, aux3->n_vector.y, aux3->n_vector.z);
 		printf("diam: %f\t\t", aux3->diam);
@@ -99,47 +85,7 @@ void	ft_debug_parsing(t_parse *p)
 	}
 }
 
-void	ft_print_sp_pixel(t_parse *p, t_sph *sp, int i, int j)
-{
-	/* if (i == 800 && j == 600){
-		printf("DETECTAMOS HIT\n");
-		printf("color: %X\n", rgb_to_hex_alpha(sp->color));
-	}
-	(void)p; */
-	mlx_put_pixel(p->img, j, i, rgb_to_hex_alpha(sp->color));
-}
-
-mlx_image_t	*create_image_shadow(t_parse *pr)
-{
-	int		j;
-	int		i;
-	t_ray	ray;
-	//t_color	color;
-
-	i = 200;
-	j = 400;
-	while (j < MAX_H)
-	{
-		i = 0;
-		while (i < MAX_W)
-		{
-			ray = ft_calc_ray(i, j, pr);
-			if (ft_sp_intersection(ray, pr))
-			{
-				mlx_put_pixel(pr->img, i, j, 0xffff000a);
-			}
-			/*  else
-			{
-				mlx_put_pixel(pr->img, i, j, 0xFF87CEEB);
-			} */
-			i++;
-		}
-		j++;
-	}
-	return (pr->img);
-}
-
-mlx_image_t	*create_image_normals(t_parse *pr)
+void	create_sphere_image_normals(t_parse *pr)
 {
 	int		j;
 	int		i;
@@ -154,37 +100,13 @@ mlx_image_t	*create_image_normals(t_parse *pr)
 		while (i < MAX_W)
 		{
 			ray = ft_calc_ray(i, j, pr);
-			if (ft_sp_intersection_normal(ray, pr, i, j))
+			if (ft_sp_intersection(ray, pr, i, j))
 				mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->pixel_color));
 			i++;
 		}
 		j++;
 	}
-	return (pr->img);
-}
-
-mlx_image_t	*create_image_color(t_parse *pr)
-{
-	int		j;
-	int		i;
-	t_ray	ray;
-	//t_color	color;
-
-	i = 0;
-	j = 0;
-	while (j < MAX_H)
-	{
-		i = 0;
-		while (i < MAX_W)
-		{
-			ray = ft_calc_ray(i, j, pr);
-			if (ft_sp_intersection(ray, pr))
-				mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->color));
-			i++;
-		}
-		j++;
-	}
-	return (pr->img);
+	//return (pr->img);
 }
 
 void display_sp_normals(t_parse *pr)
@@ -196,17 +118,27 @@ void display_sp_normals(t_parse *pr)
 	aux = pr->sp;
 	while (i < pr->sp_count)
 	{
-		mlx_image_to_window(pr->data, aux->normals, 0, 0);
+		mlx_image_to_window(pr->data, aux->diffuse, 0, 0);
 		aux = aux->next;
 		i++;
 	}
 }
-void	ft_render_loop(t_parse *pr, mlx_image_t *color, mlx_image_t *normals)
+void draw_render_queue(t_parse *pr)
 {
+	int	i;
 
-	(void)color;
-	(void)normals;
-	display_sp_normals(pr);
+	i = 0;
+	while (i < pr->sp_count)// will be updated to total number of objects
+	{
+		mlx_image_to_window(pr->data, pr->render_queue[i]->img, 0, 0);
+		i++;
+	}
+}
+
+void	ft_render_loop(t_parse *pr)
+{
+	//display_sp_normals(pr);
+	draw_render_queue(pr);
 	//mlx_image_to_window(pr->data, pr->sp->normals, 0, 0);
 	//mlx_image_to_window(pr->data, color, 0, 0);
 	//mlx_image_to_window(pr->data, normals, 0, 0);
@@ -217,30 +149,21 @@ void	ft_render_loop(t_parse *pr, mlx_image_t *color, mlx_image_t *normals)
 
 int main(int argc, char **argv)
 {
-	mlx_image_t *color;
-	mlx_image_t *normals;
-	//mlx_image_t *shadows;
-	//ft_draw_gradient();
 	t_parse * program = ft_parsing(argc, argv);
+	//int	size;
+
 	if (!program)
 		return (1);
-	color = create_image_color(program);
-	normals = create_image_normals(program);
-	//shadows = create_image_shadow(program);
+	create_sphere_image_normals(program);
 	//ft_debug_parsing(program);
-	ft_render_loop(program, color, normals); 
-	/* t_vec or = ft_init_vec(0, 0, 0);
-	t_vec dir = ft_init_vec(0, 0, -1);
-	t_ray ray;
-	ray.dir = dir;
-	ray.or = or; 
-	ft_intersects_sp(ray, program->sp);
-	printf("colision en : %f, %f, %f\n", 
-					program->sp->colission.x, program->sp->colission.y, program->sp->colission.z);
-	printf("determinante: %f\n", ft_calc_det(ray, program->sp)); 
-	 ft_free_sp(program);
-	ft_free_pl(program);
-	ft_free_cy(program);
-	free(program); */
+	program->render_queue = init_render_queue(program);
+	if (program->render_queue == NULL)
+		return (ft_free_parsing(program), 0);
+	//fill_render_queue(program, &program->pl);
+	fill_render_queue(program);
+	//size = program->sp_count + program->pl_count + program->cy_count;
+	//sort_render_queue(program->render_queue, size);
+	sort_render_queue(program->render_queue, program->sp_count);
+	ft_render_loop(program); 
 	return (ft_free_parsing(program), 0);
 }
