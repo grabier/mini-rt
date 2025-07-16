@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:08:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/08 21:29:33 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:38:46 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_sph	*ft_sphnew(t_vec p, double d, t_color c)
 	new_node->color = c;
 	new_node->point = p;
 	new_node->diam = d;
+	new_node->in = 0;
 	new_node->next = NULL;
 	//printf("created a sphere\n");
 	return (new_node);

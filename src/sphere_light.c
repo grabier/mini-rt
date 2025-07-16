@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:46:10 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/15 20:49:51 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:40:01 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,9 @@ void	sp_light_calc(t_sph *sp, t_parse *p)
 	t_color	am;
 	t_vec	normal;
 
-	/* if (!ft_in_shadow(sp->colission, p))
-		diff = sp_diffuse(sp, p, normal);
-	else
-	{
-		diff.r = 0;
-		diff.g = 0;
-		diff.b = 0;
-	} */
 	normal = norm(sub(sp->colission, sp->point));
+	if (sp->in)
+		normal = scale(-1, normal);
 	if (dot(normal, norm(sub(p->l_point, sp->colission))) > 0)
 		diff = sp_diffuse(sp, p, normal);
 	else

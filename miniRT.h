@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/15 21:00:42 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:38:30 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_sph
 	t_color			pixel_color;
 	int				is_colission;
 	t_vec			colission;
+	int				in;
 	struct s_sph	*next;
 }			t_sph;
 
