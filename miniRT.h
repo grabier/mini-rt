@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/17 17:34:01 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:49:10 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ typedef struct s_parse
 	double	l_bright;
 	t_color	l_color;
 	//for the objects, we need lists(can be more than one)
+	t_hit	*hit;
 	int		sp_count;
 	t_sph	*sp;
 	int		pl_count;
@@ -253,3 +254,4 @@ void	ft_hitadd_back(t_hit **lst, t_hit *new);
 void	ft_hitadd_front(t_hit **lst, t_hit *new);
 t_hit	*ft_hitnew(t_vec hit, t_color color);
 int	ft_hitsize(t_hit *lst);
+void	print_hit_list(t_hit *hit_lst);

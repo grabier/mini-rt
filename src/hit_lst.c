@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:39:01 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/16 16:44:39 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:02:14 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@ void	ft_hitadd_back(t_hit **lst, t_hit *new)
 	while (aux->next)
 		aux = aux->next;
 	aux->next = new;
+}
+
+void	print_hit_list(t_hit *hit_lst)
+{
+	t_hit	*aux;
+
+	aux = hit_lst;
+	while (aux)
+	{
+		printf("hit_point\t");
+		printv(aux->colission);
+		printf("color\t");
+		ft_printcolor(aux->pixel_color);
+		aux = aux->next;
+	}
+	printf("\n");
 }
 
 void	ft_hitadd_front(t_hit **lst, t_hit *new)

@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:53:11 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/17 17:24:42 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:23:12 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,30 +36,56 @@ t_ray	ft_calc_ray(int i, int j, t_parse *pr)
 	return (ray);
 }
 
+uint32_t	get_closest_color(t_parse	*p, int i, int j)
+{
+	t_hit	*aux;
+	t_hit	*closest;
+	double	distance;
+
+	aux = p->hit;
+	closest = NULL;
+	distance = __DBL_MAX__;
+	while (aux)
+	{
+		if (distance > vlen(sub(aux->colission, p->cam->origin)))
+		{
+			distance = vlen(sub(aux->colission, p->cam->origin));
+			closest = aux;
+		}
+		aux = aux->next;
+	}
+
+	return (rgb_to_hex_alpha(closest->pixel_color));
+}
+
 int		ft_sp_intersection(t_ray ray, t_parse *pr, int x, int j)
 {
 	t_sph	*aux;
-	//t_hit	*hit_list;
 	int		i;
 	int		intersects;
 
 	i = 0;
 	intersects = 0;
 	aux = pr->sp;
-	//hit_list = NULL;
+	ft_free_hit(pr->hit);
+	pr->hit = NULL;
 	while (aux)
 	{
 		if (ft_there_is_colission_sp(ray, aux))
 		{
-			intersects++;//list of intersections. we will choose the closest to cam
+			intersects++;
+			//list of intersections. we will choose the closest to cam
 			sp_light_calc(aux, pr);
 			/* printf("pixel color: \t");
 			ft_printcolor(pr->sp->pixel_color); */
-			mlx_put_pixel(pr->img, x, j, rgb_to_hex_alpha(aux->pixel_color));
 		}
 		aux = aux->next;
 		i++;
 	}
+	if (x == 800 && j == 600) 
+		print_hit_list(pr->hit);
+	if (pr->hit)
+		mlx_put_pixel(pr->img, x, j, get_closest_color(pr, x, j));
 	//printf("number of colissions: %i\n", intersects);
 	return (intersects);
 }

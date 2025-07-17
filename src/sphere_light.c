@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:46:10 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/16 15:40:01 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:46:21 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	sp_light_calc(t_sph *sp, t_parse *p)
 	sp->pixel_color.r = fmin(255, diff.r + am.r);
 	sp->pixel_color.g = fmin(255, diff.g + am.g);
 	sp->pixel_color.b = fmin(255, diff.b + am.b);
+	ft_hitadd_back(&p->hit, ft_hitnew(sp->colission, sp->pixel_color));
 }
 
 t_color sp_diffuse(t_sph *sp, t_parse *p, t_vec	normal)
