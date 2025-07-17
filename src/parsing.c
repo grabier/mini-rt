@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/09 19:47:21 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:34:18 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_parse	*ft_read_file(int fd)
 	t_parse	*program;
 
 	program = ft_init_parse();
+	start_timer(&program->start);
 	while (1)
 	{
 		line = get_next_line(fd);

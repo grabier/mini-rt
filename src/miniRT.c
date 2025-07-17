@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/15 21:10:37 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:34:26 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,71 +52,6 @@ uint32_t	rgb_to_hex_alpha(t_color color)
 	mlx_loop(data);
 } */
 
-void	ft_debug_parsing(t_parse *p)
-{
-	t_sph *aux = p->sp;
-	t_pl *aux2 = p->pl;
-	t_cy	*aux3 = p->cy;
-	printf("A:	amlr: %f\t\tRGB: %i , %i , %i\n", p->am_ratio, p->am_color.r, p->am_color.g, p->am_color.b);
-	printf("C:	cam_point: %f, %f, %f\t\t", p->cam->origin.x, p->cam->origin.y, p->cam->origin.z);
-	printf("cam_nvec: %f, %f, %f\t\t", p->cam->fw.x, p->cam->fw.y, p->cam->fw.z);
-	printf("cam_fov: %f\n", p->cam->fov / (PI / 180));
-	printf("L:	light_vec: %f, %f, %f		light_ratio: %f\t\t light_color: %i , %i , %i\n", p->l_point.x, p->l_point.y, p->l_point.z, p->l_bright, p->l_color.r, p->l_color.g, p->l_color.b);
-	printf("viewport data: center: (%f, %f, %f)\t\t lower_left: (%f, %f, %f)\n"
-		, p->cam->center.x, p->cam->center.y, p->cam->center.z, p->cam->ll.x, p->cam->ll.y, p->cam->ll.z);
-	printf("viewport data: vertical: (%f, %f, %f)\t\t horizontal: (%f, %f, %f)\n"
-		, p->cam->ver.x, p->cam->ver.y, p->cam->ver.z, p->cam->hor.x, p->cam->hor.y, p->cam->hor.z);
-	printf("vp_h: %f, vp_w: %f\n", p->cam->vp_h, p->cam->vp_w);
-	int i = 0;
-	while (aux)
-	{
-		printf("sp[%i]: sp_point: %f, %f, %f\t\t", i, aux->point.x, aux->point.y, aux->point.z);
-		printf("diam: %f\t\t", aux->diam);
-		printf("RGB: %i , %i , %i\n",  aux->color.r, aux->color.g, aux->color.b);
-		i++;
-		aux = aux->next;
-	}
-	i = 0;
-	while (aux2)
-	{
-		printf("pl[%i]: pl_point: %f, %f, %f\t\t", i, aux2->point.x, aux2->point.y, aux2->point.z);
-		printf("pl_n_vec: %f, %f, %f\t\t", aux2->n_vector.x, aux2->n_vector.y, aux2->n_vector.z);
-		printf("RGB: %i , %i , %i\n",  aux2->color.r, aux2->color.g, aux2->color.b);
-		i++;
-		aux2 = aux2->next;
-	}
-	i = 0;
-	while (aux3)
-	{
-		//printf("debug_cilindro\n");
-		printf("cy[%i]: cy_point: %f, %f, %f\t\t", i, aux3->point.x, aux3->point.y, aux3->point.z);
-		printf("cy_n_vec: %f, %f, %f\t\t", aux3->n_vector.x, aux3->n_vector.y, aux3->n_vector.z);
-		printf("diam: %f\t\t", aux3->diam);
-		printf("height: %f\t\t", aux3->height);
-		printf("RGB: %i , %i , %i\n",  aux3->color.r, aux3->color.g, aux3->color.b);
-		i++;
-		aux3 = aux3->next;
-	}
-}
-
-void	ft_print_sp_pixel(t_parse *p, t_sph *sp, int i, int j)
-{
-	/* if (i == 800 && j == 600){
-		printf("DETECTAMOS HIT\n");
-		printf("color: %X\n", rgb_to_hex_alpha(sp->color));
-	}
-	(void)p; */
-	mlx_put_pixel(p->img, j, i, rgb_to_hex_alpha(sp->color));
-}
-
-void ft_printcolor(t_color c)
-{
-	printf("R: %i	\t", c.r);
-	printf("G: %i	\t", c.g);
-	printf("B: %i	\n", c.b);
-}
-
-
 void	ft_render_loop(t_parse *pr)
 {
 
@@ -133,21 +68,14 @@ void	ft_render_loop(t_parse *pr)
 		while (i < MAX_W)
 		{
 			ray = ft_calc_ray(i, j, pr);
-			if (ft_sp_intersection(ray, pr, i, j))
-			{
-				//ft_printcolor(pr->sp->pixel_color);
-				i = i;
-				//mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->pixel_color));
-			}
-			else
+			if (!ft_sp_intersection(ray, pr, i, j))
 				mlx_put_pixel(pr->img, i, j, 0xFF000000);
-
 			i++;
 		}
 		j++;
 	}
+	end_timer(pr->start);
 	mlx_image_to_window(pr->data, pr->img, 0, 0);
-
 	mlx_loop(pr->data);
 }
 
@@ -157,8 +85,8 @@ int main(int argc, char **argv)
 	t_parse * program = ft_parsing(argc, argv);
 	if (!program)
 		return (1);
-	printf("up: \t");
-	printv(program->cam->up);
+	//printf("up: \t");
+	//printv(program->cam->up);
 	//program->cam->up.y *= -1;
 	ft_render_loop(program); 
 	return (ft_free_parsing(program), 0);

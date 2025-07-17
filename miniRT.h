@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/16 15:38:30 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:34:01 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <sys/time.h>
 #include "libft/libft.h"
 #include "MLX42/include/MLX42/MLX42.h"
 # define MAX_W 1600  //3840
@@ -35,6 +36,13 @@ typedef struct s_vec
 	double	y;
 	double	z;
 }			t_vec;
+
+typedef struct s_hit
+{
+	t_vec	colission;
+	t_color	pixel_color;
+	struct s_hit *next;
+}			t_hit;
 
 typedef struct s_ray
 {
@@ -102,6 +110,7 @@ typedef struct s_parse
 {
 	mlx_t	*data;
 	mlx_image_t	*img;
+	struct timeval start;
 	int		A;
 	double	am_ratio;
 	t_color	am_color;
@@ -132,6 +141,10 @@ char	*get_next_line(int fd);
 //utils1.c
 void	ft_free(char **sp);
 void	printv(t_vec v);
+void	ft_printcolor(t_color c);
+void	ft_debug_parsing(t_parse *p);
+void	start_timer(struct timeval *start);
+void	end_timer(struct timeval start);
 
 
 //ambient_parsing.c
@@ -233,3 +246,10 @@ t_color sp_ambient(t_sph *sp, t_parse *p);
 int	ft_in_shadow(t_vec c, t_parse *p);
 
 uint32_t	rgb_to_hex_alpha(t_color color);
+
+//hit_lst.c
+void	ft_free_hit(t_hit *p);
+void	ft_hitadd_back(t_hit **lst, t_hit *new);
+void	ft_hitadd_front(t_hit **lst, t_hit *new);
+t_hit	*ft_hitnew(t_vec hit, t_color color);
+int	ft_hitsize(t_hit *lst);

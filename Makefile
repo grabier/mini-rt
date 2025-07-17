@@ -28,6 +28,7 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/ray_tracer.c \
 	   $(SRC_DIR)/sphere_light.c \
 	   $(SRC_DIR)/in_shadow.c \
+	   $(SRC_DIR)/hit_lst.c \
 
 
 OBJ_DIR = ./obj
