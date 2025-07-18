@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/16 15:56:37 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 18:50:02 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,7 @@ int	ft_parse_line(char *line, t_parse *program)
 {
 	char	**spline;
 
-	spline = ft_split(line, ' ');
-	/* if (spline[0][0] == '\0')
-		printf("entra al salto: %s\n", spline[0]);
-	printf("entra al parse: %s\n", spline[0]); */
-	/* if (spline[0][1] != '\0'){
-		printf("sp[0]: %s\n", spline[0]);
-		printf("sp[1]: %s\n", spline[1]);
-		printf("sp[2]: %s\n", spline[2]);
-	} */
+	spline = ft_split(line, '|');
 	if (!ft_strcmp(spline[0], "A"))
 		return (ft_parse_ambient(spline, program));
 	else if (!ft_strcmp(spline[0], "C"))
@@ -43,23 +35,163 @@ int	ft_parse_line(char *line, t_parse *program)
 		return (ft_free(spline), 0);
 }
 
+int	ft_arg_count(char *str)
+{
+	int i;
+	int	check;
+	int arg_count;
+	
+	i = 0;
+	check = 0;
+	arg_count = 0;
+	while(str[i] != '\0')
+	{
+		if (str[i] == ' ' || str[i] == '\t')
+			check = 0;
+		else if (check == 0)
+		{
+			arg_count++;
+			check = 1;
+		}
+		i++;
+	}
+	return (arg_count);
+}
+int	ft_space_count(char *str)
+{
+	int i;
+	int space_count;
+	
+	i = 0;
+	space_count = 0;
+	while(str[i] != '\0')
+	{
+		if (str[i] == ' ' || str[i] == '\t')
+			space_count++;
+		i++;
+	}
+	return (space_count);
+}
+char	*ft_delete_spaces(char *str, char *dst)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while(str[i] != '\0' && dst[j])
+	{
+		
+		if(str[i] == ' ' || str[i] == '\t')
+			i++;
+		else
+		{
+			if (i > 0 && (str[i - 1] == ' ' || str[i - 1] == '\t'))
+				dst[j++] = '|';
+			dst[j++] = str[i++];
+		}
+		if (str[i] == '\n')
+		{
+			str[i] = '\0';
+			i++;
+		}
+	}
+	dst[j] = '\0';
+	return (dst);
+}
+
+int	ft_check_arg_count(char *str, int arg_count)
+{
+	int		i;
+	char	c;
+	i = 1;
+	c = str[0];
+	if ((c == 's' && str[1] != 'p') || (c == 'p' && str[1] != 'l')
+		|| (c == 'c' && str[1] != 'y'))
+		return (0);
+	if (c == 's'|| c == 'p' || c == 'c')
+		i++;
+	while(str[i] != '\0')
+	{
+		if(!ft_isdigit(str[i]) && str[i] != ',' && str[i] != '.'
+			&& str[i] != '-' && str[i] != '|' )
+			return (0);
+		i++;
+	}
+	if (c == 'A' && arg_count != 2)
+		return (0);
+	if ((c == 'C' ||  c == 'L'  ||  c == 's' ||  c == 'p' )
+		&& arg_count != 3)
+		return (0);
+	if (c == 'c' && arg_count != 5)
+		return (0);
+	return (1);
+}
+
+int	ft_check_argument(char *str)
+{
+	int 	i;
+	int		arg_count;
+	char	c;
+	
+	i = 0;
+	arg_count = 0;
+	c = str[0];
+	while (str[i] != '\0')
+	{
+		if (str[i] == '|')
+			arg_count++;
+		else if (!ft_isdigit(str[i]) && str[i] != ',' && str[i] != '.'
+			&& str[i] != '-' && str[i] != 'A' && str[i] != 'C'
+			&& str[i] != 'L' && str[i] != 's' && str[i] != 'p'
+			&& str[i] != 'l' && str[i] != 'c' && str[i] != 'y')
+			return (0);
+		if((c == 'A' || c == 'C' || c == 'L') && i > 0 && !ft_isdigit(str[i])
+			&& str[i] != ',' && str[i] != '.' && str[i] != '-' && str[i] != '|')
+			return (0);
+		i++;
+	}
+	if (arg_count < 2 || arg_count > 5 || !ft_check_arg_count(str, arg_count))
+		return (0);
+	return (1);
+}
+
+char	*ft_format_line(char *str)
+{
+	char	*line;
+	int		size;
+
+	size = ft_strlen(str) - ft_space_count(str) + ft_arg_count(str);
+	line = malloc((size + 1) * sizeof(char));
+	if (!line)
+		return (printf("malloc error\n"), NULL);
+	line[size] = '\0';
+	line = ft_delete_spaces(str, line);
+	//printf("new format %s\n", line);
+	return (line);
+}
 t_parse	*ft_read_file(int fd)
 {
 	char	*line;
+	char	*argument;
 	t_parse	*program;
 
 	program = ft_init_parse();
 	while (1)
 	{
 		line = get_next_line(fd);
-		/* if (!ft_strcmp(line, "\n"))
-			printf("salotlinea\n");
-		else
-			printf("NO salotlinea\n"); */
 		if (!line)
 			break;
-		if (!ft_parse_line(line, program))
-			return (free(line), ft_free_parsing(program));
+		if (line[0] != '\n')
+		{
+			argument = ft_format_line(line);
+			if (!ft_check_argument(argument))
+				return (printf("Error\nFile parsing incorrect"),
+				free(argument), free(line), ft_free_parsing(program));
+			if (!ft_parse_line(argument, program))
+				return (free(argument),  free(line), ft_free_parsing(program));
+			free(argument);
+		}
 		free(line);
 	}
 	close(fd);
@@ -80,10 +212,14 @@ int		ft_check_extension(char *file)
 
 t_parse	*ft_free_parsing(t_parse *p)
 {
-	ft_free_sp(p);
-	ft_free_pl(p);
-	ft_free_cy(p);
-	free(p->cam);
+	if (p->sp != 0)
+		ft_free_sp(p);
+	if (p->pl != 0)
+		ft_free_pl(p);
+	if (p->cy != 0)
+		ft_free_cy(p);
+	if (p->cam)
+		free(p->cam);
 	if (p->render_queue)
 		free_render_queue(p);
 	free(p);

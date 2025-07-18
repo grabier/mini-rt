@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/16 16:21:12 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 18:40:31 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ void	create_sphere_image_normals(t_parse *pr)
 		while (i < MAX_W)
 		{
 			ray = ft_calc_ray(i, j, pr);
-			if (ft_sp_intersection(ray, pr, i, j))
-				mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->pixel_color));
+			ft_sp_intersection(ray, pr, i, j);
+				//mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->pixel_color));
 			i++;
 		}
 		j++;

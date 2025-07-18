@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/18 17:02:10 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 18:40:49 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_parse
 {
 //	int		error;
 	mlx_t	*data;
-	mlx_image_t	*img;
+	//mlx_image_t	*img;
 	int		A;
 	double	am_ratio;
 	t_color	am_color;

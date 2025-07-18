@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:08:02 by aehrl             #+#    #+#             */
-/*   Updated: 2025/07/18 17:02:22 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 18:47:48 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ t_parse *ft_init_parse()
 	parse->sp = NULL;
 	parse->pl = NULL;
 	parse->cy = NULL;
+	parse->cam = NULL;
+	parse->render_queue = NULL;
 	parse->data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
-	parse->img = mlx_new_image(parse->data, MAX_W, MAX_H);
+	//parse->img = mlx_new_image(parse->data, MAX_W, MAX_H);
 	return (parse);
 }
 
