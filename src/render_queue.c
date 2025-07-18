@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:32:47 by aehrl             #+#    #+#             */
-/*   Updated: 2025/07/16 16:07:36 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/16 16:41:23 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,12 @@ void sort_render_queue(t_render_queue **queue, int size)
 	(void)queue;
 	while(i < size)
 	{
-		printf("LITTLE CHECKER\n i:%d\n", i);
 		if (i + 1 != size)
 		{
-			dist_a = vlen(queue[i]->point) - (queue[i]->diam / 2);
-			dist_b = vlen(queue[i]->point) - (queue[i + 1]->diam / 2);
-			if (dist_a > dist_b)
+			dist_a = vlen(queue[i]->point) - (queue[i]->diam / 2); //does not take camera into account
+			dist_b = vlen(queue[i + 1]->point) - (queue[i + 1]->diam / 2); //does not take camera into account
+			printf("[%d]distance_a %f\n[%d]distance_b:%f\n\n",i, dist_a,i + 1,  dist_b);
+			if (dist_a > dist_b && dist_b != 0) //0 check for if we are inside the opbject (needs to be checked wiht updated calculation)
 			{
 				aux = queue[i + 1];
 				queue[i + 1] = queue[i];
@@ -140,16 +140,4 @@ void sort_render_queue(t_render_queue **queue, int size)
 			i++;
 	}
 }
-/* void	create_render_queue(t_parse *pr)
-{
-	int	object_count;
-	int i;
-	int	swap;
 
-	object_count = program->sp_count + program->pl_count + program->cy_count;
-	i = object_count - 1;
-	while(i => 0)
-	{
-
-	}
-} */

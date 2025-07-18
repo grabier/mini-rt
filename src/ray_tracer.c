@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:53:11 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/16 13:18:39 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/16 16:32:29 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,20 @@ int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp)
 			sp->colission = p2;
 		else
 			sp->colission = p1;
+		return (1);
+	}
+	if (t1 > 0 && t2 < 0)
+	{
+		p1 = add(ray.or, scale(t1, ray.dir));
+		sp->colission = p1;
+		sp->in = 1;
+		return (1);
+	}
+	if (t2 > 0 && t1 < 0)
+	{
+		p1 = add(ray.or, scale(t2, ray.dir));
+		sp->in = 1;
+		sp->colission = p1;
 		return (1);
 	}
 	return (0);

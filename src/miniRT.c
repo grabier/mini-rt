@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/16 16:04:29 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/16 16:21:12 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,11 @@ void draw_render_queue(t_parse *pr)
 {
 	int	i;
 
-	i = 0;
-	while (i < pr->sp_count)// will be updated to total number of objects
+	i = pr->sp_count - 1; // will be updated to total number of objects
+	while (i >= 0)
 	{
 		mlx_image_to_window(pr->data, pr->render_queue[i]->img, 0, 0);
-		i++;
+		i--;
 	}
 }
 

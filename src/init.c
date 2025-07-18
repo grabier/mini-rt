@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:08:02 by aehrl             #+#    #+#             */
-/*   Updated: 2025/07/16 15:54:35 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 17:02:22 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_parse *ft_init_parse()
 	t_parse	*parse;
 
 	parse = malloc(sizeof(t_parse));
+	//parse->error = 0;
 	parse->A = 0;
 	parse->C = 0;
 	parse->L = 0;

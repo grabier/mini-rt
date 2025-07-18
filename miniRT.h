@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/16 15:42:04 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 17:02:10 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_sph
 	t_color			pixel_color;
 	int				is_colission;
 	t_vec			colission;
+	int				in;
 	mlx_image_t		*diffuse;
 	struct s_sph	*next;
 }			t_sph;
@@ -109,6 +110,7 @@ typedef struct s_render_queue
 
 typedef struct s_parse
 {
+//	int		error;
 	mlx_t	*data;
 	mlx_image_t	*img;
 	int		A;
@@ -132,8 +134,8 @@ typedef struct s_parse
 }			t_parse;
 
 //ft_atod.c
+//double	ft_atod(char *str);
 double	ft_atod(char *str);
-
 
 //gnl.c
 char	*get_next_line(int fd);
