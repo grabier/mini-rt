@@ -6,18 +6,43 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 14:08:02 by aehrl             #+#    #+#             */
-/*   Updated: 2025/07/18 18:47:48 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 19:24:12 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
+
+t_vec ft_init_vec(double x, double y, double z)
+{
+	t_vec p;
+
+	p.x = x;
+	p.y = y;
+	p.z = z;
+	return (p);
+}
+
+t_color ft_init_color(char **sp)
+{
+	int	a;
+	int	b;
+	int	c;
+	t_color color;
+
+	a = ft_atoi(sp[0]);
+	b = ft_atoi(sp[1]);
+	c = ft_atoi(sp[2]);
+	color.r = a;
+	color.g = b;
+	color.b = c;
+	return (color);
+}
 
 t_parse *ft_init_parse()
 {
 	t_parse	*parse;
 
 	parse = malloc(sizeof(t_parse));
-	//parse->error = 0;
 	parse->A = 0;
 	parse->C = 0;
 	parse->L = 0;

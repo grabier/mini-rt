@@ -13,6 +13,7 @@ SRC_DIR = ./src
 SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/gnl.c \
 	   $(SRC_DIR)/parsing.c \
+	   $(SRC_DIR)/parsing_utils.c \
 	   $(SRC_DIR)/ft_atod.c \
 	   $(SRC_DIR)/ambient_parsing.c \
 	   $(SRC_DIR)/camera_parsing.c \
@@ -29,6 +30,7 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/ray_tracer.c \
 	   $(SRC_DIR)/render_queue.c \
 	   $(SRC_DIR)/init.c \
+	   $(SRC_DIR)/free.c \
 
 OBJ_DIR = ./obj
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
