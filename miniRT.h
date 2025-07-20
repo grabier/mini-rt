@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/17 17:49:10 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:05:10 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ char	*get_next_line(int fd);
 
 
 //utils1.c
-void	ft_free(char **sp);
 void	printv(t_vec v);
 void	ft_printcolor(t_color c);
 void	ft_debug_parsing(t_parse *p);
@@ -169,11 +168,31 @@ int		ft_init_t_color_li(t_parse *program, int r, int g, int b);
 
 //parsing.c
 int		ft_parse_line(char *line, t_parse *program);
-t_parse *ft_init_parse();
+char	*ft_format_line(char *str);
 t_parse	*ft_read_file(int fd);
 int		ft_check_extension(char *file);
-t_parse	*ft_free_parsing(t_parse *p);
+//t_parse	*ft_free_parsing(t_parse *p);
+int		ft_check_parsing (t_parse *p);
 t_parse	*ft_parsing(int argc, char **argv);
+
+
+//parsing_utils.c
+int	ft_arg_count(char *str);
+int	ft_space_count(char *str);
+char	*ft_delete_spaces(char *str, char *dst);
+int	ft_check_arg_count(char *str, int arg_count);
+int	ft_check_argument(char *str);
+
+
+//init.c
+t_vec ft_init_vec(double x, double y, double z);
+t_color ft_init_color(char **sp);
+t_parse *ft_init_parse();
+
+
+//free.c
+void	ft_free(char **sp);
+t_parse	*ft_free_parsing(t_parse *p);
 
 
 //sphere_lst.c
@@ -187,8 +206,8 @@ void	ft_free_sp(t_parse *p);
 //sphere_parsing.c
 int	ft_parse_sphere(char **sp, t_parse *p);
 int	ft_check_color(char **sp);
-t_color ft_init_color(char **sp);
-t_vec ft_init_vec(double x, double y, double z);
+//t_color ft_init_color(char **sp);
+//t_vec ft_init_vec(double x, double y, double z);
 int	ft_check_point(double x, double y, double z);
 int	ft_init_t_color_sp(t_parse *p, int r, int g, int b);
 

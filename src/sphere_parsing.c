@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:25:17 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/08 21:29:43 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:05:04 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_parse_sphere(char **sp, t_parse *p)
 	return (ft_free(sp_aux),ft_free(sp_aux2), ft_free(sp), 1);
 }
 
-t_vec ft_init_vec(double x, double y, double z)
+/* t_vec ft_init_vec(double x, double y, double z)
 {
 	t_vec p;
 
@@ -53,7 +53,7 @@ t_vec ft_init_vec(double x, double y, double z)
 	p.y = y;
 	p.z = z;
 	return (p);
-}
+} */
 
 int	ft_check_color(char **sp)
 {
@@ -71,7 +71,7 @@ int	ft_check_color(char **sp)
 	return (1);
 }
 
-t_color ft_init_color(char **sp)
+/* t_color ft_init_color(char **sp)
 {
 	int	a;
 	int	b;
@@ -85,7 +85,7 @@ t_color ft_init_color(char **sp)
 	color.g = b;
 	color.b = c;
 	return (color);
-}
+} */
 
 int	ft_check_point(double x, double y, double z)
 {

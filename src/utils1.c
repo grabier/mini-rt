@@ -6,13 +6,13 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:32:25 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/17 17:36:37 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:04:15 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-void	ft_free(char **sp)
+/* void	ft_free(char **sp)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ void	ft_free(char **sp)
 		i++;
 	}
 	free(sp);
-}
+} */
 
 void	printv(t_vec v)
 {

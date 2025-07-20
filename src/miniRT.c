@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/17 17:53:47 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:13:22 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	ft_render_loop(t_parse *pr)
 
 	i = 0;
 	j = 0;
+	start_timer(&pr->start);
 	while (j < MAX_H)
 	{
 		i = 0;

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -29,6 +29,9 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/sphere_light.c \
 	   $(SRC_DIR)/in_shadow.c \
 	   $(SRC_DIR)/hit_lst.c \
+	   $(SRC_DIR)/parsing_utils.c \
+	   $(SRC_DIR)/free.c \
+	   $(SRC_DIR)/init.c \
 
 
 OBJ_DIR = ./obj
