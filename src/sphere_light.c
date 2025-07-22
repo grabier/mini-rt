@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 17:46:10 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/17 17:46:21 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/20 14:31:48 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,7 @@ void	sp_light_calc(t_sph *sp, t_parse *p)
 	normal = norm(sub(sp->colission, sp->point));
 	if (sp->in)
 		normal = scale(-1, normal);
-	if (dot(normal, norm(sub(p->l_point, sp->colission))) > 0)
-		diff = sp_diffuse(sp, p, normal);
-	else
-	{
-		diff.r = 0;
-		diff.g = 0;
-		diff.b = 0;
-	}
-	//diff = sp_diffuse(sp, p, normal);
+	diff = sp_diffuse(sp, p, normal);
 	am = sp_ambient(sp, p);
 	sp->pixel_color.r = fmin(255, diff.r + am.r);
 	sp->pixel_color.g = fmin(255, diff.g + am.g);
@@ -42,12 +34,10 @@ t_color sp_diffuse(t_sph *sp, t_parse *p, t_vec	normal)
 	t_color	diff;
 	double	intensity;
 
-	//printf("normal x l.point: %f\n", dot(normal, p->l_point));
-	intensity = fmax(0, dot(normal, norm(sub(p->l_point, sp->colission))));
-	/* if (dot(normal, p->l_point) > 0)
-		intensity = fmax(0, dot(normal, p->l_point));
+	if (dot(normal, norm(sub(p->l_point, sp->colission))) > 0)
+		intensity = fmax(0, dot(normal, norm(sub(p->l_point, sp->colission))));
 	else
-		intensity = 0; */
+		intensity = 0;
 	diff.r = sp->color.r * (p->l_bright) * (p->l_color.r / 255) * intensity;
 	diff.g = sp->color.g * (p->l_bright) * (p->l_color.g / 255) * intensity;
 	diff.b = sp->color.b * (p->l_bright) * (p->l_color.b / 255) * intensity;

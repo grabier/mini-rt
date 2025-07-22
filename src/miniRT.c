@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/20 13:13:22 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:15:12 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 uint32_t	rgb_to_hex_alpha(t_color color)
 {
 	return ((color.r << 24) | (color.g << 16) |
-		   (color.b << 8) | 255);
+		(color.b << 8) | 255);
 }
 
 /* uint32_t	rgb_to_hex_alpha(t_color color)
