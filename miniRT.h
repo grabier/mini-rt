@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/20 13:05:10 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:51:57 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ typedef struct s_vec
 typedef struct s_hit
 {
 	t_vec	colission;
+	t_vec	normal;
 	t_color	pixel_color;
+	int		object;//0 for sph, 1 for planes, 2 for cylinders
 	struct s_hit *next;
 }			t_hit;
 
@@ -247,23 +249,26 @@ double	dot(t_vec a, t_vec b);
 
 //ray_tracer.c
 t_ray	ft_calc_ray(int i, int j, t_parse *pr);
-double	ft_calc_det(t_ray ray, t_sph *sp);
-t_vec	ft_get_ray_point(t_ray ray, double t);
-int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp);
-int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d);
+uint32_t	get_closest_color(t_parse	*p);
+int		ft_colission(t_ray ray, t_parse *pr, int x, int j);
+
+//sphere_colission.c
+int	sphere_colission(t_ray ray, t_parse *pr);
 int	ft_there_is_colission_sp(t_ray ray, t_sph *sp);
-int		ft_sp_intersection(t_ray ray, t_parse *pr, int x, int j);
-void ft_sp_colission_to_light(t_sph *sp, t_parse *p);
+double	ft_calc_det(t_ray ray, t_sph *sp);
+int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d);
+int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp);
 
 void ft_printcolor(t_color c);
 
 //sphere_light.c
-void	sp_light_calc(t_sph *sp, t_parse *p);
-t_color sp_diffuse(t_sph *sp, t_parse *p, t_vec	normal);
-t_color sp_ambient(t_sph *sp, t_parse *p);
+void	light_calc(t_hit *hit, t_parse *p);
+t_color diffuse(t_hit *hit, t_parse *p);
+t_color ambient(t_hit *hit, t_parse *p);
 
-//in_shadow.c
-int	ft_in_shadow(t_vec c, t_parse *p);
+//shadow.c
+int	sp_shadow(t_ray sh, t_parse *p);
+int	is_in_shadow(t_hit *hit, t_parse *p);
 
 uint32_t	rgb_to_hex_alpha(t_color color);
 
@@ -271,6 +276,6 @@ uint32_t	rgb_to_hex_alpha(t_color color);
 void	ft_free_hit(t_hit *p);
 void	ft_hitadd_back(t_hit **lst, t_hit *new);
 void	ft_hitadd_front(t_hit **lst, t_hit *new);
-t_hit	*ft_hitnew(t_vec hit, t_color color);
-int	ft_hitsize(t_hit *lst);
+t_hit	*ft_hitnew(t_vec hit, t_color color, t_vec n, int m);
+int		ft_hitsize(t_hit *lst);
 void	print_hit_list(t_hit *hit_lst);

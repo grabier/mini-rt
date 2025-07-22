@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/22 16:37:09 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:18:46 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_render_loop(t_parse *pr)
 		while (i < MAX_W)
 		{
 			ray = ft_calc_ray(i, j, pr);
-			if (!ft_sp_intersection(ray, pr, i, j))
+			if (!ft_colission(ray, pr, i, j))
 				mlx_put_pixel(pr->img, i, j, 0xFF000000);
 			i++;
 		}

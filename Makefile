@@ -27,11 +27,12 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/t_vec_ops_1.c \
 	   $(SRC_DIR)/ray_tracer.c \
 	   $(SRC_DIR)/sphere_light.c \
-	   $(SRC_DIR)/in_shadow.c \
+	   $(SRC_DIR)/shadow.c \
 	   $(SRC_DIR)/hit_lst.c \
 	   $(SRC_DIR)/parsing_utils.c \
 	   $(SRC_DIR)/free.c \
 	   $(SRC_DIR)/init.c \
+	   $(SRC_DIR)/sphere_colission.c \
 
 
 OBJ_DIR = ./obj

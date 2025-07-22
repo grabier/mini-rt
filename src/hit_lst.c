@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:39:01 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/17 18:02:14 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:00:34 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_hitadd_front(t_hit **lst, t_hit *new)
 	*lst = new;
 }
 
-t_hit	*ft_hitnew(t_vec hit, t_color color)
+t_hit	*ft_hitnew(t_vec hit, t_color color, t_vec n, int m)
 {
 	t_hit	*new_node;
 
@@ -73,6 +73,8 @@ t_hit	*ft_hitnew(t_vec hit, t_color color)
 		return (NULL);	
 	new_node->colission = hit;
 	new_node->pixel_color = color;
+	new_node->object = m;
+	new_node->normal = n;
 	new_node->next = NULL;
 	//printf("created a hitere\n");
 	return (new_node);
