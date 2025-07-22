@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:25:17 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/20 13:05:04 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:39:35 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_check_color(char **sp)
 	int	a;
 	int	b;
 	int	c;
-
+	
 	a = ft_atoi(sp[0]);
 	b = ft_atoi(sp[1]);
 	c = ft_atoi(sp[2]);

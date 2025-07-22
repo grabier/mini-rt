@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/20 12:57:15 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:37:26 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,15 @@ char	*ft_format_line(char *str)
 {
 	char	*line;
 	int		size;
+	int		i;
 
+	i = -1;
 	size = ft_strlen(str) - ft_space_count(str) + ft_arg_count(str);
 	line = malloc((size + 1) * sizeof(char));
 	if (!line)
 		return (printf("malloc error\n"), NULL);
+	while (++i < size)
+		line[i] = 'a';
 	line[size] = '\0';
 	line = ft_delete_spaces(str, line);
 	//printf("new format %s\n", line);

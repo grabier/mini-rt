@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:53:11 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/20 13:12:26 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:39:46 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ int		ft_sp_intersection(t_ray ray, t_parse *pr, int x, int j)
 		aux = aux->next;
 		i++;
 	}
-	if (x == 800 && j == 600) 
-		print_hit_list(pr->hit);
+	/* if (x == 800 && j == 600) 
+		print_hit_list(pr->hit); */
 	//printf("number of colissions for pixel(%i, %i): %i\n", x, j, intersects);
 	if (pr->hit)
 		mlx_put_pixel(pr->img, x, j, get_closest_color(pr));

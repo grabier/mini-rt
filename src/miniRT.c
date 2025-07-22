@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/20 13:15:12 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:37:09 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,8 @@ int main(int argc, char **argv)
 	t_parse * program = ft_parsing(argc, argv);
 	if (!program)
 		return (1);
-	//printf("up: \t");
 	//printv(program->cam->up);
 	//program->cam->up.y *= -1;
-	ft_render_loop(program); 
+	ft_render_loop(program);
 	return (ft_free_parsing(program), 0);
 }
