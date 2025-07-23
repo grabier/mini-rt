@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/22 18:51:57 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/23 19:06:14 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ typedef struct s_pl
 {
 	t_vec			point;
 	t_vec			n_vector;
+	t_vec			colission;
 	t_color			color;
+	t_color			pixel_color;
 	struct s_pl		*next;
 }			t_pl;
 
@@ -268,7 +270,9 @@ t_color ambient(t_hit *hit, t_parse *p);
 
 //shadow.c
 int	sp_shadow(t_ray sh, t_parse *p);
+int	sp_shadow_intersects(t_ray sh, t_sph *sp, int max);
 int	is_in_shadow(t_hit *hit, t_parse *p);
+int	pl_shadow(t_ray sh, t_parse *p);
 
 uint32_t	rgb_to_hex_alpha(t_color color);
 
@@ -279,3 +283,7 @@ void	ft_hitadd_front(t_hit **lst, t_hit *new);
 t_hit	*ft_hitnew(t_vec hit, t_color color, t_vec n, int m);
 int		ft_hitsize(t_hit *lst);
 void	print_hit_list(t_hit *hit_lst);
+
+//plane_colission.c
+int	plane_colission(t_ray ray, t_parse *pr);
+int	ft_there_is_colission_pl(t_ray ray, t_pl *pl);

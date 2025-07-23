@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:43:16 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/22 19:10:21 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/23 19:07:17 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,28 @@ int	sp_shadow(t_ray sh, t_parse *p)
 	return (0);
 }
 
+int	pl_shadow(t_ray sh, t_parse *p)
+{
+	t_pl	*aux;
+	double	max;
+	double	den;
+	double	t;
+
+	aux = p->pl;
+	while (aux)
+	{
+		max = vlen(sub(p->l_point, sh.or));
+		den = dot(aux->n_vector, sh.dir);
+		if (fabs(den) < 0.001)
+			return (0);
+		t = dot(aux->n_vector, sub(aux->point, sh.or)) / den;
+		if (t > 0.0001 && t < max)
+			return (1);
+		aux = aux->next;
+	}
+	return (0);
+}
+
 int	is_in_shadow(t_hit *hit, t_parse *p)
 {
 	t_ray	sh;
@@ -58,6 +80,8 @@ int	is_in_shadow(t_hit *hit, t_parse *p)
 	sh.or = hit->colission;
 	sh.dir = norm(sub(p->l_point, sh.or));
 	if (sp_shadow(sh, p))
+		return (1);
+	if (pl_shadow(sh, p))
 		return (1);
 	return (0);
 }

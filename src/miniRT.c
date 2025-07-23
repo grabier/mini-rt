@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/22 17:18:46 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/23 17:32:47 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ uint32_t	rgb_to_hex_alpha(t_color color)
 			double r = (double)(j) / (MAX_W - 1);
 			double g = (double)(i) / (MAX_H - 1);
 			double b = 0.0;
-
-			
 			mlx_put_pixel(img, j, i, rgb_to_hex_alpha(color));
 		}
 	}
@@ -58,7 +56,6 @@ void	ft_render_loop(t_parse *pr)
 	int		j;
 	int		i;
 	t_ray	ray;
-	//t_color	color;
 
 	i = 0;
 	j = 0;
