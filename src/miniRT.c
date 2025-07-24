@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/23 17:32:47 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:31:48 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_render_loop(t_parse *pr)
 int main(int argc, char **argv)
 {
 	//ft_draw_gradient();
-	t_parse * program = ft_parsing(argc, argv);
+	t_parse	*program = ft_parsing(argc, argv);
 	if (!program)
 		return (1);
 	//printv(program->cam->up);

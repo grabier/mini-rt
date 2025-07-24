@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:53:11 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/23 19:10:47 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:36:43 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ uint32_t	get_closest_color(t_parse	*p)
 		}
 		aux = aux->next;
 	}
-	light_calc(closest, p);
+	light_calc(closest, p);//lights r now calc'd here, and only for the closest intersection(did a few tests, doesnt seem to make it faster)
 	return (rgb_to_hex_alpha(closest->pixel_color));
 }
 
-int		ft_colission(t_ray ray, t_parse *pr, int x, int j)
+int		ft_colission(t_ray ray, t_parse *pr, int x, int j)//changed to loop through all object lists, and now we calc the closest when deciding the color
 {
 	int		intersects;
 
@@ -71,6 +71,6 @@ int		ft_colission(t_ray ray, t_parse *pr, int x, int j)
 		print_hit_list(pr->hit); */
 	//printf("number of colissions for pixel(%i, %i): %i\n", x, j, intersects);
 	if (pr->hit)
-		mlx_put_pixel(pr->img, x, j, get_closest_color(pr));
+		mlx_put_pixel(pr->img, x, j, get_closest_color(pr));//we calc the closest here now
 	return (intersects);
 }

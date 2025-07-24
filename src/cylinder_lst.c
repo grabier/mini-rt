@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:05:16 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/03 18:16:33 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:03:25 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_cy	*ft_cynew(t_aux	params)
 	new_node->color = params.color;
 	new_node->point = params.point;
 	new_node->n_vector = params.n_vector;
-	new_node->diam = params.diam;
+	new_node->r = params.diam / 2;
 	new_node->height = params.height;
 	new_node->next = NULL;
 	//printf("created a cylinder\n");

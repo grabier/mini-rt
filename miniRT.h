@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/23 19:06:14 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:02:50 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_cy
 {
 	t_vec			point;
 	t_vec			n_vector;
-	double			diam;
+	double			r;
 	double			height;
 	t_color			color;
 	struct s_cy		*next;

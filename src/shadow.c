@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 18:43:16 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/23 19:07:17 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:39:41 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	pl_shadow(t_ray sh, t_parse *p)
 	return (0);
 }
 
-int	is_in_shadow(t_hit *hit, t_parse *p)
+int	is_in_shadow(t_hit *hit, t_parse *p)//calc'd differently for each object, if any hit is detected, it's in the shadow
 {
 	t_ray	sh;
 
