@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/18 18:40:31 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 20:03:05 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,79 +18,11 @@ uint32_t	rgb_to_hex_alpha(t_color color)
 		   (color.b << 8) | 255;
 }
 
-void ft_draw_gradient()
-{
-	mlx_t	*data;
-	mlx_image_t	*img;
-	t_color color;
-
-	data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
-	img = mlx_new_image(data, MAX_W, MAX_H);
-	if (!data || !img){
-		printf("problemo\n");
-		return ;
-	}
-	for(int j = 0; j < MAX_W; j++){
-		for (int i = 0; i < MAX_H; i++){
-			mlx_put_pixel(img, j, i, rgb_to_hex_alpha(color));
-		}
-	}
-	mlx_image_to_window(data, img, 0, 0);
-	mlx_loop(data);
-}
-
-void	ft_debug_parsing(t_parse *p)
-{
-	t_sph *aux = p->sp;
-	t_pl *aux2 = p->pl;
-	t_cy	*aux3 = p->cy;
-	printf("A:	amlr: %f\t\tRGB: %i , %i , %i\n", p->am_ratio, p->am_color.r, p->am_color.g, p->am_color.b);
-	printf("C:	cam_point: %f, %f, %f\t\t", p->cam->origin.x, p->cam->origin.y, p->cam->origin.z);
-	printf("cam_nvec: %f, %f, %f\t\t", p->cam->fw.x, p->cam->fw.y, p->cam->fw.z);
-	printf("cam_fov: %f\n", p->cam->fov / (PI / 180));
-	printf("L:	light_vec: %f, %f, %f		light_ratio: %f\t\t light_color: %i , %i , %i\n", p->l_point.x, p->l_point.y, p->l_point.z, p->l_bright, p->l_color.r, p->l_color.g, p->l_color.b);
-	printf("viewport data: center: (%f, %f, %f)\t\t lower_left: (%f, %f, %f)\n"
-		, p->cam->center.x, p->cam->center.y, p->cam->center.z, p->cam->ll.x, p->cam->ll.y, p->cam->ll.z);
-	printf("viewport data: vertical: (%f, %f, %f)\t\t horizontal: (%f, %f, %f)\n"
-		, p->cam->ver.x, p->cam->ver.y, p->cam->ver.z, p->cam->hor.x, p->cam->hor.y, p->cam->hor.z);
-	printf("vp_h: %f, vp_w: %f\n", p->cam->vp_h, p->cam->vp_w);
-	int i = 0;
-	while (aux)
-	{
-		printf("sp[%i]: sp_point: %f, %f, %f\t\t", i, aux->point.x, aux->point.y, aux->point.z);
-		printf("diam: %f\t\t", aux->diam);
-		printf("RGB: %i , %i , %i\n",  aux->color.r, aux->color.g, aux->color.b);
-		i++;
-		aux = aux->next;
-	}
-	i = 0;
-	while (aux2)
-	{
-		printf("pl[%i]: pl_point: %f, %f, %f\t\t", i, aux2->point.x, aux2->point.y, aux2->point.z);
-		printf("pl_n_vec: %f, %f, %f\t\t", aux2->n_vector.x, aux2->n_vector.y, aux2->n_vector.z);
-		printf("RGB: %i , %i , %i\n",  aux2->color.r, aux2->color.g, aux2->color.b);
-		i++;
-		aux2 = aux2->next;
-	}
-	i = 0;
-	while (aux3)
-	{
-		printf("cy[%i]: cy_point: %f, %f, %f\t\t", i, aux3->point.x, aux3->point.y, aux3->point.z);
-		printf("cy_n_vec: %f, %f, %f\t\t", aux3->n_vector.x, aux3->n_vector.y, aux3->n_vector.z);
-		printf("diam: %f\t\t", aux3->diam);
-		printf("height: %f\t\t", aux3->height);
-		printf("RGB: %i , %i , %i\n",  aux3->color.r, aux3->color.g, aux3->color.b);
-		i++;
-		aux3 = aux3->next;
-	}
-}
-
 void	create_sphere_image_normals(t_parse *pr)
 {
 	int		j;
 	int		i;
 	t_ray	ray;
-	//t_color	color;
 
 	i = 0;
 	j = 0;
@@ -101,15 +33,13 @@ void	create_sphere_image_normals(t_parse *pr)
 		{
 			ray = ft_calc_ray(i, j, pr);
 			ft_sp_intersection(ray, pr, i, j);
-				//mlx_put_pixel(pr->img, i, j, rgb_to_hex_alpha(pr->sp->pixel_color));
 			i++;
 		}
 		j++;
 	}
-	//return (pr->img);
 }
 
-void display_sp_normals(t_parse *pr)
+void display_sp_normals(t_parse *pr) // no longer need this function (handled by draw_render_queue)
 {
 	int	i;
 	t_sph	*aux;
@@ -134,17 +64,25 @@ void draw_render_queue(t_parse *pr)
 		i--;
 	}
 }
+void esc_keyhook(mlx_key_data_t keydata, void* param)
+{
+	mlx_t *mlx;
+	
+	mlx = param;
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+		mlx_close_window(mlx);
+}
 
 void	ft_render_loop(t_parse *pr)
 {
-	//display_sp_normals(pr);
+	//draw ambient light (should be bg color)
 	draw_render_queue(pr);
-	//mlx_image_to_window(pr->data, pr->sp->normals, 0, 0);
-	//mlx_image_to_window(pr->data, color, 0, 0);
-	//mlx_image_to_window(pr->data, normals, 0, 0);
-	//mlx_image_to_window(pr->data, shadows, 0, 0);
-	//shadows->enabled = false;
+	//mlx_resize_hook(mlx_t* mlx, mlx_resizefunc func, void* param);
+	//mlx_resize_hook(pr->data, &mlx_update_matrix, pr->data);
+	mlx_key_hook(pr->data, &esc_keyhook, pr->data); //handle ESC
+	//if (pr->data)
 	mlx_loop(pr->data);
+	mlx_terminate(pr->data);
 }
 
 int main(int argc, char **argv)
@@ -159,7 +97,6 @@ int main(int argc, char **argv)
 	program->render_queue = init_render_queue(program);
 	if (program->render_queue == NULL)
 		return (ft_free_parsing(program), 0);
-	//fill_render_queue(program, &program->pl);
 	fill_render_queue(program);
 	//size = program->sp_count + program->pl_count + program->cy_count;
 	//sort_render_queue(program->render_queue, size);

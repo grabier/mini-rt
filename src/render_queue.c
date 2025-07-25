@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:32:47 by aehrl             #+#    #+#             */
-/*   Updated: 2025/07/16 16:41:23 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 19:56:23 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	free_render_queue(t_parse *pr)
 	while(i < object_count)
 	{
 		if (pr->render_queue[i])
+		{
+			mlx_delete_image(pr->data, pr->render_queue[i]->img);
 			free(pr->render_queue[i]);
+		}
 		i++;
 	}
 	free(pr->render_queue);

@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/18 19:23:19 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 19:34:02 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_parse	*ft_read_file(int fd)
 		{
 			argument = ft_format_line(line);
 			if (!ft_check_argument(argument))
-				return (printf("Error\nFile parsing incorrect"),
+				return (printf("Error\nIncorrect file setup"),
 				free(argument), free(line), ft_free_parsing(program));
 			if (!ft_parse_line(argument, program))
 				return (free(argument),  free(line), ft_free_parsing(program));
@@ -99,10 +99,10 @@ int	ft_check_parsing (t_parse *p)
 		return (printf("Error:Only one camera allowed\n"), ft_free_parsing(p), 0);
 	if (p->L > 1) // multiple lights allowed in bonus
 		return (printf("Error:Only one light allowed\n"), ft_free_parsing(p), 0);
-	if (p->A == 0 && p->L == 0) // should be > 1 as we can start the scene without an ambient light
+	if (p->A == 0 && p->L == 0)
 		return (printf("Error: No ambient lighting or light set\n"), ft_free_parsing(p), 0);
-	if (p->pl_count == 0 && p->cy_count == 0 && p->sp_count == 0)
-		return (printf("Error: No object to represent\n"), ft_free_parsing(p), 0);
+	if (p->pl_count == 0 && p->cy_count == 0 && p->sp_count == 0) //I think it is allowed as long as camer & ambient/light is set
+		return (printf("Error: No object to represent\n"), ft_free_parsing(p), 0); // 0 objects changes how render_queue works 
 	return (1);
 }
 

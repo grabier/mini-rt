@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/18 19:22:59 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/18 19:40:51 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,9 +140,9 @@ char			*get_next_line(int fd);
 
 
 //utils1.c // can be deleted later only for testing
-
 void			printv(t_vec v);
-
+void			ft_debug_parsing(t_parse *p);
+void 			ft_draw_gradient();
 
 //ambient_parsing.c
 int				ft_parse_ambient(char **spline, t_parse *program);
