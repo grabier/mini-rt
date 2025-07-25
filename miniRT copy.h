@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 18:27:51 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/24 15:02:50 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_sph
 	int				is_colission;
 	t_vec			colission;
 	int				in;
-	mlx_image_t		*diffuse;
 	struct s_sph	*next;
 }			t_sph;
 
@@ -72,7 +71,6 @@ typedef struct s_pl
 	t_vec			colission;
 	t_color			color;
 	t_color			pixel_color;
-	mlx_image_t		*diffuse;
 	struct s_pl		*next;
 }			t_pl;
 
@@ -83,7 +81,6 @@ typedef struct s_cy
 	double			r;
 	double			height;
 	t_color			color;
-	mlx_image_t		*diffuse;
 	struct s_cy		*next;
 }			t_cy;
 
@@ -113,14 +110,6 @@ typedef struct s_aux
 	t_color			color;
 }			t_aux;
 
-typedef struct s_render_queue
-{
-	mlx_image_t	*img;
-	t_vec			point;
-	double			diam;
-}		t_render_queue;
-
-
 typedef struct s_parse
 {
 	mlx_t	*data;
@@ -134,7 +123,7 @@ typedef struct s_parse
 	int		L;
 	t_vec	l_point;
 	double	l_bright;
-	t_color	l_color; // dont think we need this (bonus && should be stored in light)
+	t_color	l_color;
 	//for the objects, we need lists(can be more than one)
 	t_hit	*hit;
 	int		sp_count;
@@ -143,8 +132,7 @@ typedef struct s_parse
 	t_pl	*pl;
 	int		cy_count;
 	t_cy	*cy;
-	t_color	cy_color; // dont think we need this
-	t_render_queue **render_queue;
+	t_color	cy_color;
 }			t_parse;
 
 //ft_atod.c
@@ -191,12 +179,6 @@ int		ft_check_extension(char *file);
 int		ft_check_parsing (t_parse *p);
 t_parse	*ft_parsing(int argc, char **argv);
 
-int	ft_arg_count(char *str);
-int	ft_space_count(char *str);
-char	*ft_delete_spaces(char *str, char *dst);
-int	ft_check_arg_count(char *str, int arg_count);
-int	ft_check_argument(char *str);
-
 
 //parsing_utils.c
 int	ft_arg_count(char *str);
@@ -220,7 +202,7 @@ t_parse	*ft_free_parsing(t_parse *p);
 //sphere_lst.c
 void	ft_sphadd_back(t_sph **lst, t_sph *new);
 void	ft_sphadd_front(t_sph **lst, t_sph *new);
-t_sph	*ft_sphnew(t_vec p, double d, t_color c, t_parse *parse);
+t_sph	*ft_sphnew(t_vec p, double d, t_color c);
 int		ft_sphsize(t_sph *lst);
 void	ft_free_sp(t_parse *p);
 
@@ -238,7 +220,7 @@ int	ft_init_t_color_sp(t_parse *p, int r, int g, int b);
 void	ft_free_pl(t_parse *p);
 void	ft_pladd_back(t_pl **lst, t_pl *new);
 void	ft_pladd_front(t_pl **lst, t_pl *new);
-t_pl	*ft_plnew(t_vec p, t_vec n, t_color c, t_parse *parse);
+t_pl	*ft_plnew(t_vec p, t_vec n, t_color c);
 int		ft_plsize(t_pl *lst);
 
 
@@ -251,7 +233,7 @@ int		ft_check_n_vector(double x, double y, double z);
 void	ft_free_cy(t_parse *p);
 void	ft_cyadd_back(t_cy **lst, t_cy *new);
 void	ft_cyadd_front(t_cy **lst, t_cy *new);
-t_cy	*ft_cynew(t_aux	params, t_parse *parse);
+t_cy	*ft_cynew(t_aux	params);
 int		ft_cysize(t_cy *lst);
 
 
@@ -273,7 +255,7 @@ uint32_t	get_closest_color(t_parse	*p);
 int		ft_colission(t_ray ray, t_parse *pr, int x, int j);
 
 //sphere_colission.c
-int	sphere_colission(t_ray ray, t_parse *pr, int x, int j);
+int	sphere_colission(t_ray ray, t_parse *pr);
 int	ft_there_is_colission_sp(t_ray ray, t_sph *sp);
 double	ft_calc_det(t_ray ray, t_sph *sp);
 int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d);
@@ -302,18 +284,6 @@ t_hit	*ft_hitnew(t_vec hit, t_color color, t_vec n, int m);
 int		ft_hitsize(t_hit *lst);
 void	print_hit_list(t_hit *hit_lst);
 
-//render_queue.c
-//void	fill_render_queue(t_parse *pr, t_pl **lst);
-void			fill_render_queue(t_parse *pr);
-void 			sort_render_queue(t_render_queue **queue, int size);
-void			free_render_queue(t_parse *pr);
-
-//init.c
-t_parse 		*ft_init_parse();
-t_vec 			ft_init_vec(double x, double y, double z);
-t_render_queue	**init_render_queue(t_parse *program);
-t_color 		ft_init_color(char **sp);
-
 //plane_colission.c
-int	plane_colission(t_ray ray, t_parse *pr, int x, int j);
+int	plane_colission(t_ray ray, t_parse *pr);
 int	ft_there_is_colission_pl(t_ray ray, t_pl *pl);

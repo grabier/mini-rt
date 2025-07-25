@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:25:17 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/18 18:56:26 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/25 18:02:32 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,48 @@ int	ft_parse_sphere(char **sp, t_parse *p)
 	char	**sp_aux;
 	char	**sp_aux2;
 	double	f;
+	//int		n;
+	//t_sph	*head;
 
+	//head = p->sp;
 	sp_aux = ft_split(sp[1], ',');
 	f = ft_atod(sp_aux[0]);
 	if (!ft_check_point(f, ft_atod(sp_aux[1]), ft_atod(sp_aux[2])))
 		return (printf("sp point invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
 	point = ft_init_vec(f, ft_atod(sp_aux[1]), ft_atod(sp_aux[2]));
+
+	
 	f = ft_atod(sp[2]);
 	if (f <= 0 || fabs(f - 2.232323) < 0.0001)
 		return (printf("sp diam invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
+
 	sp_aux2 = ft_split(sp[3], ',');
 	if (!ft_check_color(sp_aux2))
 		return (printf("sp color invalid\n"), ft_free(sp_aux), ft_free(sp_aux2), ft_free(sp), 0);
 	c = ft_init_color(sp_aux2);
+
+	
 	ft_sphadd_back(&p->sp, ft_sphnew(point, f, c, p));
 	p->sp_count++;
 	return (ft_free(sp_aux),ft_free(sp_aux2), ft_free(sp), 1);
 }
+
+/* t_vec ft_init_vec(double x, double y, double z)
+{
+	t_vec p;
+
+	p.x = x;
+	p.y = y;
+	p.z = z;
+	return (p);
+} */
 
 int	ft_check_color(char **sp)
 {
 	int	a;
 	int	b;
 	int	c;
-
+	
 	a = ft_atoi(sp[0]);
 	b = ft_atoi(sp[1]);
 	c = ft_atoi(sp[2]);
@@ -53,8 +71,27 @@ int	ft_check_color(char **sp)
 	return (1);
 }
 
+/* t_color ft_init_color(char **sp)
+{
+	int	a;
+	int	b;
+	int	c;
+	t_color color;
+
+	a = ft_atoi(sp[0]);
+	b = ft_atoi(sp[1]);
+	c = ft_atoi(sp[2]);
+	color.r = a;
+	color.g = b;
+	color.b = c;
+	return (color);
+} */
+
 int	ft_check_point(double x, double y, double z)
 {
+	//printf("check_point: \n");
+	//printf("x: %f, y: %f, z: %f\n", x, y, z);
+	
 	if (fabs(x - 2.232323) < 0.0001 || fabs(y - 2.232323) < 0.0001 || fabs(z - 2.232323) < 0.0001)
 		return (0);
 	return (1);

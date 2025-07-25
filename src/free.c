@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 19:16:09 by aehrl             #+#    #+#             */
-/*   Updated: 2025/07/18 19:22:38 by aehrl            ###   ########.fr       */
+/*   Created: 2025/07/20 13:02:03 by gmontoro          #+#    #+#             */
+/*   Updated: 2025/07/25 17:27:24 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_parse	*ft_free_parsing(t_parse *p)
 		ft_free_cy(p);
 	if (p->cam)
 		free(p->cam);
+	if (p->hit)
+		free(p->hit);
 	if (p->render_queue)
 		free_render_queue(p);
 	free(p);

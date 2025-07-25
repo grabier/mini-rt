@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 19:42:04 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/08 21:25:57 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:40:24 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ int	ft_parse_ambient(char **spline, t_parse *program)
 	char	**sp_aux;
 	int		aux;
 	
+	
+	
 	f = ft_atod(spline[1]);//2.232323 for error
 	//printf("ambient ratio: %f\n", f );
 	if(f < 0.0 || f > 1.0 || fabs(f - 2.232323) < 0.0001)
 		return (printf("ambient ratio invalid\n"), ft_free(spline), 0);
 	program->am_ratio = f;
 	sp_aux = ft_split(spline[2], ',');
-	//printf("spline: %s\n", sp_aux[1]);
 	if (!ft_check_color(sp_aux))//check if valid for int
 		return (printf("ambient color out invalid\n"), ft_free(sp_aux), ft_free(spline), 0);
 	aux = ft_atoi(sp_aux[0]);

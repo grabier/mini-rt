@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_vec_ops_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:31:16 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/16 13:12:04 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/15 17:14:39 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ t_vec cross(t_vec a, t_vec b)//return a vector orthogonal to a and b
 
 t_vec norm(t_vec v)//retulrns the unitary vector for v
 {
-	double	len;
+	double	l;
 
-	len = sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
-	if (len == 0)
+	l = vlen(v);
+	if (l == 0)
 		return (printf("Error: cannot normalize vector\n"), (t_vec){0, 0, 0});
-	v.x /= len;
-	v.y /= len;
-	v.z /= len;
+	v.x /= l;
+	v.y /= l;
+	v.z /= l;
 	return (v);
 }
 

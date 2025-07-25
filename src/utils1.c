@@ -6,34 +6,52 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:32:25 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/18 19:40:44 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/25 17:48:41 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-void ft_draw_gradient()
+/* void	ft_free(char **sp)
 {
-	mlx_t	*data;
-	mlx_image_t	*img;
-	t_color color;
+	int	i;
 
-	data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
-	img = mlx_new_image(data, MAX_W, MAX_H);
-	if (!data || !img){
-		printf("problemo\n");
-		return ;
+	i = 0;
+	while (sp[i])
+	{
+		free(sp[i]);
+		i++;
 	}
-	for(int j = 0; j < MAX_W; j++){
-		for (int i = 0; i < MAX_H; i++){
-			mlx_put_pixel(img, j, i, rgb_to_hex_alpha(color));
-		}
-	}
-	mlx_image_to_window(data, img, 0, 0);
-	mlx_loop(data);
+	free(sp);
+} */
+
+void	printv(t_vec v)
+{
+	printf("x: %f, y: %f, z: %f\n", v.x, v.y, v.z);
 }
 
-void	ft_debug_parsing(t_parse *p) // will be deleted later
+void	ft_printcolor(t_color c)
+{
+	printf("R: %i, G: %i, B: %i\n", c.r, c.g, c.b);
+}
+
+void	start_timer(struct timeval *start)
+{
+	gettimeofday(start, NULL);
+}
+
+void	end_timer(struct timeval start)
+{
+	struct timeval end;
+	gettimeofday(&end, NULL);
+
+	long seconds = end.tv_sec - start.tv_sec;
+	long microseconds = end.tv_usec - start.tv_usec;
+
+	printf("Render time: %.6f seconds\n", seconds + microseconds * 1e-6);
+}
+
+void	ft_debug_parsing(t_parse *p)
 {
 	t_sph *aux = p->sp;
 	t_pl *aux2 = p->pl;
@@ -69,18 +87,13 @@ void	ft_debug_parsing(t_parse *p) // will be deleted later
 	i = 0;
 	while (aux3)
 	{
+		//printf("debug_cilindro\n");
 		printf("cy[%i]: cy_point: %f, %f, %f\t\t", i, aux3->point.x, aux3->point.y, aux3->point.z);
 		printf("cy_n_vec: %f, %f, %f\t\t", aux3->n_vector.x, aux3->n_vector.y, aux3->n_vector.z);
-		printf("diam: %f\t\t", aux3->diam);
+		printf("diam: %f\t\t", aux3->r);
 		printf("height: %f\t\t", aux3->height);
 		printf("RGB: %i , %i , %i\n",  aux3->color.r, aux3->color.g, aux3->color.b);
 		i++;
 		aux3 = aux3->next;
 	}
-}
-
-// this is not needed later(only for testing)
-void	printv(t_vec v)
-{
-	printf("x: %f, y: %f, z: %f\n", v.x, v.y, v.z);
 }

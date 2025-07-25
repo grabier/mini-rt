@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:32:47 by aehrl             #+#    #+#             */
-/*   Updated: 2025/07/18 19:56:23 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/25 18:08:11 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	free_render_queue(t_parse *pr)
 	int			object_count;
 	int			i;
 
-	//object_count = pr->sp_count + pr->pl_count + pr->cy_count;
-	object_count = pr->sp_count;
+	object_count = pr->sp_count + pr->pl_count + pr->cy_count;
+	//object_count = pr->sp_count;
 	i = 0;
 	while(i < object_count)
 	{
@@ -32,21 +32,21 @@ void	free_render_queue(t_parse *pr)
 	free(pr->render_queue);
 }
 
-int	fill_render_queue_spheres(t_parse *pr, int i, t_sph **lst)
+int	fill_render_queue_spheres(t_parse *pr)
 {
-	int		j;
+	int		i;
 	t_sph	*aux;
 
-	j = 1;
-	aux = *lst;
-	while (j < pr->sp_count)
+	i = 0;
+	aux = pr->sp;
+	while (i < pr->sp_count)
 	{
-		//pr->render_queue[i]->img = aux->diffuse;
+		pr->render_queue[i] = (t_render_queue *)malloc(sizeof(t_render_queue));
+		pr->render_queue[i]->img = aux->diffuse;
 		pr->render_queue[i]->point = aux->point;
 		pr->render_queue[i]->diam = aux->diam;
 		aux = aux->next;
 		i++;
-		j++;
 	}
 	return(i);
 }
@@ -60,9 +60,10 @@ int	fill_render_queue_cylinders(t_parse *pr, int i,  t_cy **lst)
 	aux = *lst;
 	while (aux != NULL && j < pr->cy_count)
 	{
-		//pr->render_queue[i]->img = aux->diffuse;
+		pr->render_queue[i] = (t_render_queue *)malloc(sizeof(t_render_queue));
+		pr->render_queue[i]->img = aux->diffuse;
 		pr->render_queue[i]->point = aux->point;
-		pr->render_queue[i]->diam = aux->diam;
+		pr->render_queue[i]->diam = aux->r;
 		aux = aux->next;
 		i++;
 		j++;
@@ -94,13 +95,12 @@ void	fill_render_queue(t_parse *pr)
 {
 	int	object_count;
 	int i;
-	t_sph	*aux;
+	t_pl	*aux;
 
-	object_count = pr->sp_count;
-	i = 0;
-	//i = fill_render_queue_spheres(pr, 0, &pr->sp);
-	//i += fill_render_queue_cylinders(pr, i, &pr->cy);
-	aux = pr->sp;
+	object_count = pr->sp_count + pr->pl_count + pr->cy_count;
+	i = fill_render_queue_spheres(pr);
+	i += fill_render_queue_cylinders(pr, i, &pr->cy); // could just be one function for all
+	aux = pr->pl;
 	while(aux != NULL && i < object_count)
 	{
 		

@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 19:42:55 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/09 17:57:02 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:30:06 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	ft_init_cam_dir(t_parse *program, double x, double y, double z)
 	up.x = 0;
 	up.y = 1;
 	up.z = 0;
-	program->cam->right = norm(cross(up, program->cam->fw));
+	program->cam->right = norm(cross(program->cam->fw, up));
 	program->cam->up = norm(cross(program->cam->fw, program->cam->right));
 	return (1);
 }
