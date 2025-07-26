@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/24 15:02:50 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:17:37 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,10 @@ typedef struct s_pl
 typedef struct s_cy
 {
 	t_vec			point;
+	t_vec			colission;
 	t_vec			n_vector;
 	double			r;
+	int				mcol;//colission mode: 0 for lateral, 1 for base, 2 for top
 	double			height;
 	t_color			color;
 	struct s_cy		*next;
@@ -287,3 +289,13 @@ void	print_hit_list(t_hit *hit_lst);
 //plane_colission.c
 int	plane_colission(t_ray ray, t_parse *pr);
 int	ft_there_is_colission_pl(t_ray ray, t_pl *pl);
+
+//cylinder_colission.c
+t_vec	calc_normal_cy(t_cy *cy);
+int	cylinder_colission(t_ray ray, t_parse *pr);
+int	lateral_colission(t_ray ray, t_cy *cy);
+int	calc_lateral_colission(t_ray ray, t_cy *cy, t_vec r);
+int	cy_colission_point(t_ray ray, t_cy *cy, double t1, double t2);
+int	cy_both_positive(t_ray ray, t_cy *cy, t_vec p1, t_vec p2);
+int	last_case(t_ray ray, t_cy *cy, t_vec p1, t_vec p2);
+int	ft_there_is_colission_cy(t_ray ray, t_cy *cy);

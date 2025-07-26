@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:16:58 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/23 17:33:48 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/24 19:00:08 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ double	ft_calc_det(t_ray ray, t_sph *sp)//h² - ac->determinante
 	double	c;
 	t_vec	aux;
 	
-	/* 	printf("ray.dir: \t");
+	/* 	printf("ray.dir: \
+^Ct");
 	printv(ray.dir);
 	printf("O - S: \t");
 	printv(sub(ray.or, sp->point)); */
@@ -66,7 +67,7 @@ double	ft_calc_det(t_ray ray, t_sph *sp)//h² - ac->determinante
 	printf("h= %f\n", h); */
 	aux = sub(ray.or, sp->point);
 	//aux = add(sp->point, scale(-1, ray.or));
-	c = dot(aux, aux) - ((sp->diam / 2) * (sp->diam / 2));
+	c = dot(aux, aux) - ((sp->diam / 2) * (sp->diam / 2));// (O - S) * (O - S) - r²
 	//printf("c= %f\n", c);
 	return (h * h - a * c);
 }
@@ -78,8 +79,8 @@ int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d)
 	double	t1;
 	double	t2;
 
-	h = dot(ray.dir, sub(ray.or, sp->point));
-	a = dot(ray.dir, ray.dir);
+	h = dot(ray.dir, sub(ray.or, sp->point));// h = D * (O - S)
+	a = dot(ray.dir, ray.dir);//a = D * D
 	t1 = (-h + sqrt(d)) / a;
 	//printf("t1: %f\t", t1);
 	t2 = (-h - sqrt(d)) / a;
@@ -96,7 +97,7 @@ int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp)
 	//printf("t1: %f, t2: %f\n", t1, t2);
 	if (t1 > 0 && t2 > 0)//sphere in front of cam
 	{
-		p1 = add(ray.or, scale(t1, ray.dir));
+		p1 = add(ray.or, scale(t1, ray.dir));// P = O + t*D
 		p2 = add(ray.or, scale(t2, ray.dir));
 		if (vlen(sub(p1, ray.or)) > vlen(sub(p2, ray.or)))
 			sp->colission = p2;

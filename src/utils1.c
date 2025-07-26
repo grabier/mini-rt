@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:32:25 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/20 13:04:15 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/25 16:53:07 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_debug_parsing(t_parse *p)
 		//printf("debug_cilindro\n");
 		printf("cy[%i]: cy_point: %f, %f, %f\t\t", i, aux3->point.x, aux3->point.y, aux3->point.z);
 		printf("cy_n_vec: %f, %f, %f\t\t", aux3->n_vector.x, aux3->n_vector.y, aux3->n_vector.z);
-		printf("diam: %f\t\t", aux3->diam);
+		printf("diam: %f\t\t", aux3->r);
 		printf("height: %f\t\t", aux3->height);
 		printf("RGB: %i , %i , %i\n",  aux3->color.r, aux3->color.g, aux3->color.b);
 		i++;
