@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:25:17 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 18:02:32 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/29 18:47:22 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_parse_sphere(char **sp, t_parse *p)
 	c = ft_init_color(sp_aux2);
 
 	
-	ft_sphadd_back(&p->sp, ft_sphnew(point, f, c, p));
+	ft_sphadd_back(&p->sp, ft_sphnew(point, f, c));
 	p->sp_count++;
 	return (ft_free(sp_aux),ft_free(sp_aux2), ft_free(sp), 1);
 }

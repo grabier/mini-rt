@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 13:02:03 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 17:27:24 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/29 18:46:04 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ t_parse	*ft_free_parsing(t_parse *p)
 		free(p->cam);
 	if (p->hit)
 		free(p->hit);
-	if (p->render_queue)
-		free_render_queue(p);
 	free(p);
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 12:58:16 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 18:29:36 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/29 18:47:53 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,7 @@ t_parse *ft_init_parse()
 	parse->cy = NULL;
 	parse->cam = NULL;
 	parse->hit = NULL;
-	parse->render_queue = NULL;
 	parse->data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
 	parse->img = mlx_new_image(parse->data, MAX_W, MAX_H);
 	return (parse);
-}
-
-t_render_queue	**init_render_queue(t_parse *program)
-{
-	int			object_count;
-	t_render_queue **queue;
-
-	printf("sphere count: %d\nplane count: %d\ncylinder count: %d\n", program->sp_count, program->pl_count, program->cy_count);
-	object_count = program->sp_count + program->pl_count + program->cy_count;
-	//queue = (t_render_queue **)malloc(object_count * sizeof(t_render_queue *));
-	queue = (t_render_queue **)malloc(object_count * sizeof(t_render_queue *));//just for testing spheres
-	if (!queue)
-		return (NULL);
-	printf("render queue initialisation success\nrender queue size:%d\n", object_count);
-	return(queue);
 }

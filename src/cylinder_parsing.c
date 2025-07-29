@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:26:21 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 18:01:40 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/29 18:47:32 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_parse_cylinder(char **sp, t_parse *p)
 	if (!ft_check_color(sp_aux))
 		return (printf("cy color invalid\n"), ft_free(sp_aux), ft_free(sp), 0);
 	a.color = ft_init_color(sp_aux);
-	ft_cyadd_back(&p->cy, ft_cynew(a, p));
+	ft_cyadd_back(&p->cy, ft_cynew(a));
 	p->cy_count++;
 	/* printf("cy_n_vec: %f, %f, %f\n\n", p->cy->n_vector.x, p->cy->n_vector.y, p->cy->n_vector.z);
 	if (p->cy->next == NULL)

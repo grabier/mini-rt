@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:05:16 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 18:40:19 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/29 18:46:22 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	ft_free_cy(t_parse *p)
 	while (p->cy)
 	{
 		aux = p->cy->next;
-		if (p->cy->diffuse)
-			mlx_delete_image(p->data, p->cy->diffuse);
 		//printf("freed a cylinder\n");
 		free(p->cy);
 		p->cy = aux;
@@ -60,7 +58,7 @@ void	ft_cyadd_front(t_cy **lst, t_cy *new)
 	*lst = new;
 }
 
-t_cy	*ft_cynew(t_aux	params, t_parse *parse)
+t_cy	*ft_cynew(t_aux	params)
 {
 	t_cy	*new_node;
 
@@ -73,7 +71,6 @@ t_cy	*ft_cynew(t_aux	params, t_parse *parse)
 	new_node->r = params.diam / 2;
 	new_node->height = params.height;
 	new_node->next = NULL;
-	new_node->diffuse = mlx_new_image(parse->data, MAX_W, MAX_H);
 	//printf("created a cylinder\n");
 	return (new_node);
 }

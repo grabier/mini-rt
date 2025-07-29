@@ -32,7 +32,6 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/parsing_utils.c \
 	   $(SRC_DIR)/free.c \
 	   $(SRC_DIR)/init.c \
-	   $(SRC_DIR)/render_queue.c \
 	   $(SRC_DIR)/sphere_colission.c \
 	   $(SRC_DIR)/plane_colission.c \
 	   $(SRC_DIR)/cylinder_colission.c \
