@@ -2,6 +2,10 @@
 	"files.associations": {
 		"stdio.h": "c",
 		"random": "c",
-		"minirt.h": "c"
+		"minirt.h": "c",
+		"cmath": "c",
+		"stdlib.h": "c",
+		"mlx42.h": "c",
+		"math.h": "c"
 	}
 }

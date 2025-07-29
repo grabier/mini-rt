@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:53:11 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 17:09:28 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/27 18:20:39 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_ray	ft_calc_ray(int i, int j, t_parse *pr)
 	v = (j + 0.5) / MAX_H;
 	dir = add(add(pr->cam->ll, scale(u, pr->cam->hor)), scale(v, pr->cam->ver));//LL + u*hor + v ver
 	ray.or = pr->cam->origin;
-	ray.dir = norm(dir);
+	ray.dir = norm(sub(dir, ray.or));
 	/* if (i == 800 && j == 600){
 		
 		printf("R: ");

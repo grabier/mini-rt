@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 18:17:37 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/29 16:39:15 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "MLX42/include/MLX42/MLX42.h"
 # define MAX_W 1600  //3840
 # define MAX_H 1200  //2160
+# define MAX_D 40
 # define PI 3.14159
 
 #pragma once
@@ -101,6 +102,11 @@ typedef struct s_cam
 	double			vp_h;
 	double			vp_w;
 }			t_cam;
+
+typedef struct collision {
+	double depth;
+	// informacion sobre el material.
+} t_collision;
 
 //as of now, used for passing params to cylinder node creation
 typedef struct s_aux
@@ -299,3 +305,14 @@ int	cy_colission_point(t_ray ray, t_cy *cy, double t1, double t2);
 int	cy_both_positive(t_ray ray, t_cy *cy, t_vec p1, t_vec p2);
 int	last_case(t_ray ray, t_cy *cy, t_vec p1, t_vec p2);
 int	ft_there_is_colission_cy(t_ray ray, t_cy *cy);
+
+
+//render.c
+uint32_t	render(t_parse *pr, int width, int height);
+t_vec	estimate_normal(t_vec pos);
+t_collision	raycast(t_ray ray);
+
+
+//sdf_1.c
+double sphere(t_vec p);
+double rocket(t_vec p);

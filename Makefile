@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = -g  #-fsanitize=address
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -11,8 +11,9 @@ INCLUDES = -I$(LIBFT_DIR) -I$(MLX42_DIR)/include/MLX42
 SRC_DIR = ./src
 
 SRCS = $(SRC_DIR)/miniRT.c \
-	   $(SRC_DIR)/gnl.c \
+	   $(SRC_DIR)/init.c \
 	   $(SRC_DIR)/parsing.c \
+	   $(SRC_DIR)/gnl.c \
 	   $(SRC_DIR)/ft_atod.c \
 	   $(SRC_DIR)/ambient_parsing.c \
 	   $(SRC_DIR)/camera_parsing.c \
@@ -31,10 +32,11 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/hit_lst.c \
 	   $(SRC_DIR)/parsing_utils.c \
 	   $(SRC_DIR)/free.c \
-	   $(SRC_DIR)/init.c \
 	   $(SRC_DIR)/sphere_colission.c \
 	   $(SRC_DIR)/plane_colission.c \
 	   $(SRC_DIR)/cylinder_colission.c \
+	   $(SRC_DIR)/sdf_1.c \
+	   $(SRC_DIR)/render.c \
 
 
 OBJ_DIR = ./obj
