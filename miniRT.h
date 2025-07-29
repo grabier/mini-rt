@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/11 20:06:14 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/29 16:43:56 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <sys/time.h>
 #include "libft/libft.h"
 #include "MLX42/include/MLX42/MLX42.h"
 # define MAX_W 1600  //3840
@@ -36,6 +37,15 @@ typedef struct s_vec
 	double	z;
 }			t_vec;
 
+typedef struct s_hit
+{
+	t_vec	colission;
+	t_vec	normal;
+	t_color	pixel_color;
+	int		object;//0 for sph, 1 for planes, 2 for cylinders
+	struct s_hit *next;
+}			t_hit;
+
 typedef struct s_ray
 {
 	t_vec	or;
@@ -50,6 +60,8 @@ typedef struct s_sph
 	t_color			pixel_color;
 	int				is_colission;
 	t_vec			colission;
+	int				in;
+	mlx_image_t		*diffuse;
 	struct s_sph	*next;
 }			t_sph;
 
@@ -57,17 +69,23 @@ typedef struct s_pl
 {
 	t_vec			point;
 	t_vec			n_vector;
+	t_vec			colission;
 	t_color			color;
+	t_color			pixel_color;
+	mlx_image_t		*diffuse;
 	struct s_pl		*next;
 }			t_pl;
 
 typedef struct s_cy
 {
-	t_vec			point;
+	t_vec			point;	t_vec
+	colission;
 	t_vec			n_vector;
-	double			diam;
+	double			r;
+	int				mcol;//colission mode: 0 for lateral, 1 for base, 2 for top
 	double			height;
 	t_color			color;
+	mlx_image_t		*diffuse;
 	struct s_cy		*next;
 }			t_cy;
 
@@ -97,10 +115,20 @@ typedef struct s_aux
 	t_color			color;
 }			t_aux;
 
+typedef struct s_render_queue
+{
+	mlx_image_t	*img;
+	double		distance;
+	t_vec			point;
+	double			diam;
+}		t_render_queue;
+
+
 typedef struct s_parse
 {
 	mlx_t	*data;
 	mlx_image_t	*img;
+	struct timeval start;
 	int		A;
 	double	am_ratio;
 	t_color	am_color;
@@ -109,15 +137,17 @@ typedef struct s_parse
 	int		L;
 	t_vec	l_point;
 	double	l_bright;
-	t_color	l_color;
+	t_color	l_color; // dont think we need this (bonus && should be stored in light)
 	//for the objects, we need lists(can be more than one)
+	t_hit	*hit;
 	int		sp_count;
 	t_sph	*sp;
 	int		pl_count;
 	t_pl	*pl;
 	int		cy_count;
 	t_cy	*cy;
-	t_color	cy_color;
+	t_color	cy_color; // dont think we need this
+	t_render_queue **render_queue;
 }			t_parse;
 
 //ft_atod.c
@@ -129,8 +159,11 @@ char	*get_next_line(int fd);
 
 
 //utils1.c
-void	ft_free(char **sp);
 void	printv(t_vec v);
+void	ft_printcolor(t_color c);
+void	ft_debug_parsing(t_parse *p);
+void	start_timer(struct timeval *start);
+void	end_timer(struct timeval start);
 
 
 //ambient_parsing.c
@@ -154,17 +187,43 @@ int		ft_init_t_color_li(t_parse *program, int r, int g, int b);
 
 //parsing.c
 int		ft_parse_line(char *line, t_parse *program);
-t_parse *ft_init_parse();
+char	*ft_format_line(char *str);
 t_parse	*ft_read_file(int fd);
 int		ft_check_extension(char *file);
-t_parse	*ft_free_parsing(t_parse *p);
+//t_parse	*ft_free_parsing(t_parse *p);
+int		ft_check_parsing (t_parse *p);
 t_parse	*ft_parsing(int argc, char **argv);
+
+int	ft_arg_count(char *str);
+int	ft_space_count(char *str);
+char	*ft_delete_spaces(char *str, char *dst);
+int	ft_check_arg_count(char *str, int arg_count);
+int	ft_check_argument(char *str);
+
+
+//parsing_utils.c
+int	ft_arg_count(char *str);
+int	ft_space_count(char *str);
+char	*ft_delete_spaces(char *str, char *dst);
+int	ft_check_arg_count(char *str, int arg_count);
+int	ft_check_argument(char *str);
+
+
+//init.c
+t_vec ft_init_vec(double x, double y, double z);
+t_color ft_init_color(char **sp);
+t_parse *ft_init_parse();
+
+
+//free.c
+void	ft_free(char **sp);
+t_parse	*ft_free_parsing(t_parse *p);
 
 
 //sphere_lst.c
 void	ft_sphadd_back(t_sph **lst, t_sph *new);
 void	ft_sphadd_front(t_sph **lst, t_sph *new);
-t_sph	*ft_sphnew(t_vec p, double d, t_color c);
+t_sph	*ft_sphnew(t_vec p, double d, t_color c, t_parse *parse);
 int		ft_sphsize(t_sph *lst);
 void	ft_free_sp(t_parse *p);
 
@@ -172,8 +231,8 @@ void	ft_free_sp(t_parse *p);
 //sphere_parsing.c
 int	ft_parse_sphere(char **sp, t_parse *p);
 int	ft_check_color(char **sp);
-t_color ft_init_color(char **sp);
-t_vec ft_init_vec(double x, double y, double z);
+//t_color ft_init_color(char **sp);
+//t_vec ft_init_vec(double x, double y, double z);
 int	ft_check_point(double x, double y, double z);
 int	ft_init_t_color_sp(t_parse *p, int r, int g, int b);
 
@@ -182,7 +241,7 @@ int	ft_init_t_color_sp(t_parse *p, int r, int g, int b);
 void	ft_free_pl(t_parse *p);
 void	ft_pladd_back(t_pl **lst, t_pl *new);
 void	ft_pladd_front(t_pl **lst, t_pl *new);
-t_pl	*ft_plnew(t_vec p, t_vec n, t_color c);
+t_pl	*ft_plnew(t_vec p, t_vec n, t_color c, t_parse *parse);
 int		ft_plsize(t_pl *lst);
 
 
@@ -195,7 +254,7 @@ int		ft_check_n_vector(double x, double y, double z);
 void	ft_free_cy(t_parse *p);
 void	ft_cyadd_back(t_cy **lst, t_cy *new);
 void	ft_cyadd_front(t_cy **lst, t_cy *new);
-t_cy	*ft_cynew(t_aux	params);
+t_cy	*ft_cynew(t_aux	params, t_parse *parse);
 int		ft_cysize(t_cy *lst);
 
 
@@ -204,6 +263,7 @@ int		ft_parse_cylinder(char **sp, t_parse *p);
 
 //t_vec_ops_1.c
 t_vec	cross(t_vec a, t_vec b);
+double	vlen(t_vec v);
 t_vec	norm(t_vec v);
 t_vec	scale(double f, t_vec v);
 t_vec	add(t_vec a, t_vec b);
@@ -212,12 +272,61 @@ double	dot(t_vec a, t_vec b);
 
 //ray_tracer.c
 t_ray	ft_calc_ray(int i, int j, t_parse *pr);
-double	ft_calc_det(t_ray ray, t_sph *sp);
-t_vec	ft_get_ray_point(t_ray ray, double t);
-int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp);
-int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d);
-int	ft_intersects_sp(t_ray ray, t_sph *sp);
-int		ft_sp_intersection(t_ray ray, t_parse *pr);
+uint32_t	get_closest_color(t_parse	*p);
+int		ft_colission(t_ray ray, t_parse *pr, int x, int j);
 
-int		ft_sp_intersection_vector(t_ray ray, t_parse *pr);
-void ft_sp_colission_to_light(t_sph *sp, t_parse *p);
+//sphere_colission.c
+int	sphere_colission(t_ray ray, t_parse *pr, int x, int j);
+int	ft_there_is_colission_sp(t_ray ray, t_sph *sp);
+double	ft_calc_det(t_ray ray, t_sph *sp);
+int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d);
+int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp);
+
+void ft_printcolor(t_color c);
+
+//sphere_light.c
+void	light_calc(t_hit *hit, t_parse *p);
+t_color diffuse(t_hit *hit, t_parse *p);
+t_color ambient(t_hit *hit, t_parse *p);
+
+//shadow.c
+int	sp_shadow(t_ray sh, t_parse *p);
+int	sp_shadow_intersects(t_ray sh, t_sph *sp, int max);
+int	is_in_shadow(t_hit *hit, t_parse *p);
+int	pl_shadow(t_ray sh, t_parse *p);
+
+uint32_t	rgb_to_hex_alpha(t_color color);
+
+//hit_lst.c
+void	ft_free_hit(t_hit *p);
+void	ft_hitadd_back(t_hit **lst, t_hit *new);
+void	ft_hitadd_front(t_hit **lst, t_hit *new);
+t_hit	*ft_hitnew(t_vec hit, t_color color, t_vec n, int m);
+int		ft_hitsize(t_hit *lst);
+void	print_hit_list(t_hit *hit_lst);
+
+//render_queue.c
+//void	fill_render_queue(t_parse *pr, t_pl **lst);
+void			fill_render_queue(t_parse *pr);
+void 			sort_render_queue(t_render_queue **queue, int size);
+void			free_render_queue(t_parse *pr);
+
+//init.c
+t_parse 		*ft_init_parse();
+t_vec 			ft_init_vec(double x, double y, double z);
+t_render_queue	**init_render_queue(t_parse *program);
+t_color 		ft_init_color(char **sp);
+
+//plane_colission.c
+int	plane_colission(t_ray ray, t_parse *pr, int x, int j);
+int	ft_there_is_colission_pl(t_ray ray, t_pl *pl);
+
+//cylinder_colission.c
+t_vec	calc_normal_cy(t_cy *cy);
+int	cylinder_colission(t_ray ray, t_parse *pr, int x, int j);
+int	lateral_colission(t_ray ray, t_cy *cy);
+int	calc_lateral_colission(t_ray ray, t_cy *cy, t_vec r);
+int	cy_colission_point(t_ray ray, t_cy *cy, double t1, double t2);
+int	cy_both_positive(t_ray ray, t_cy *cy, t_vec p1, t_vec p2);
+int	last_case(t_ray ray, t_cy *cy, t_vec p1, t_vec p2);
+int	ft_there_is_colission_cy(t_ray ray, t_cy *cy);

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -26,6 +26,17 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/cylinder_parsing.c \
 	   $(SRC_DIR)/t_vec_ops_1.c \
 	   $(SRC_DIR)/ray_tracer.c \
+	   $(SRC_DIR)/light_calc.c \
+	   $(SRC_DIR)/shadow.c \
+	   $(SRC_DIR)/hit_lst.c \
+	   $(SRC_DIR)/parsing_utils.c \
+	   $(SRC_DIR)/free.c \
+	   $(SRC_DIR)/init.c \
+	   $(SRC_DIR)/render_queue.c \
+	   $(SRC_DIR)/sphere_colission.c \
+	   $(SRC_DIR)/plane_colission.c \
+	   $(SRC_DIR)/cylinder_colission.c \
+
 
 OBJ_DIR = ./obj
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

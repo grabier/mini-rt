@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:33:03 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/08 21:29:51 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:02:48 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_parse_plane(char **sp, t_parse *p)
 	c = ft_init_color(sp_aux);
 	
 	
-	ft_pladd_back(&p->pl, ft_plnew(p1, p2, c));
+	ft_pladd_back(&p->pl, ft_plnew(p1, p2, c, p));
 	//printf("pl_point: %f, %f, %f\t\t", p->pl->point.x, p->pl->point.y, p->pl->point.z);
 	/* if (p->pl->next == NULL)
 		printf("is NULL\n"); */

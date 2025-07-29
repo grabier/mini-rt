@@ -3,143 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:53:11 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/11 20:27:06 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/29 16:20:06 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
-
-double	ft_calc_det(t_ray ray, t_sph *sp)//h² - ac->determinante
-{
-	double	h;
-	double	a;
-	double	c;
-	t_vec	aux;
-
-	//printv(ray.dir);
-	h = dot(ray.dir, sub(ray.or, sp->point));
-	a = dot(ray.dir, ray.dir);
-	//printf("a= %f\n", a);
-	aux = sub(ray.or, sp->point);
-	//aux = add(sp->point, scale(-1, ray.or));
-	c = dot(aux, aux) - ((sp->diam / 2) * (sp->diam / 2));
-	//printf("c= %f\n", c);
-	return (h * h - a * c);
-}
-
-t_vec	ft_get_ray_point(t_ray ray, double t)
-{
-	t_vec	v;
-
-	v = add(ray.or, scale(t, ray.dir));
-	return (v);
-}
-
-void ft_sp_colission_to_light(t_sph *sp, t_parse *p)
-{
-	//t_ray	to_light;
-	t_vec	normal;
-	double intensity;
-
-	normal = norm(sub(sp->colission, sp->point));
-	intensity = fmax(0, dot(normal, p->l_point));
-	sp->pixel_color.r = sp->color.r * intensity;
-	sp->pixel_color.g = sp->color.g * intensity;
-	sp->pixel_color.b = sp->color.b * intensity;
-}
-
-int	ft_calc_point_sp(double t1, double t2, t_ray ray, t_sph *sp)
-{
-	double	t;
-
-	//printf("t1: %f, t2: %f\n", t1, t2);
-	if (t1 > 0 && t2 > 0)//sphere in front of cam
-	{
-		if (t1 > t2)
-			t = t2;
-		else
-			t = t1;
-		//printf("llega aki???\n");
-		sp->colission = ft_get_ray_point(ray, t);
-		//ft_sp_colission_to_light(sp);
-		return (1);
-	}
-	return (0);
-}
-
-int	ft_calc_intersection_sp(t_ray ray, t_sph *sp, double d)
-{
-	double	a;
-	double	h;
-	double	t1;
-	double	t2;
-
-	h = dot(ray.dir, sub(ray.or, sp->point));
-	a = dot(ray.dir, ray.dir);
-	t1 = (-h + sqrt(d)) / a;
-	t2 = (-h - sqrt(d)) / a;
-	return (ft_calc_point_sp(t1, t2, ray, sp));
-}
-
-int	ft_intersects_sp(t_ray ray, t_sph *sp)
-{
-	double	det;
-
-	det = ft_calc_det(ray, sp);
-	//printf("det: %f\n", det);
-	//printv(ray.dir);
-	if (det > 0)
-	{
-		if (ft_calc_intersection_sp(ray, sp, det))
-			return (1);
-	}
-	return (0);
-}
-
-int		ft_sp_intersection(t_ray ray, t_parse *pr)
-{
-	t_sph	*aux;
-	int		i;
-	int		intersects;
-
-	i = 0;
-	intersects = 0;
-	aux = pr->sp;
-	while (i < pr->sp_count)
-	{
-		if (ft_intersects_sp(ray, aux))
-			intersects++;
-		aux = aux->next;
-		i++;
-	}
-	//printf("number of colissions: %i\n", intersects);
-	return (intersects);
-}
-int		ft_sp_intersection_vector(t_ray ray, t_parse *pr)
-{
-	t_sph	*aux;
-	int		i;
-	int		intersects;
-
-	i = 0;
-	intersects = 0;
-	aux = pr->sp;
-	while (i < pr->sp_count)
-	{
-		if (ft_intersects_sp(ray, aux))
-		{
-			intersects++;
-			ft_sp_colission_to_light(aux, pr);
-		}
-		aux = aux->next;
-		i++;
-	}
-	//printf("number of colissions: %i\n", intersects);
-	return (intersects);
-}
 
 t_ray	ft_calc_ray(int i, int j, t_parse *pr)
 {
@@ -153,16 +24,56 @@ t_ray	ft_calc_ray(int i, int j, t_parse *pr)
 	dir = add(add(pr->cam->ll, scale(u, pr->cam->hor)), scale(v, pr->cam->ver));
 	ray.or = pr->cam->origin;
 	ray.dir = norm(dir);
-	if (i == 800 && j == 600){
-		printf("u = %f. v = %f\n", u, v);
-		printf("LL: ");
-		printv(pr->cam->ll);
+	/* if (i == 800 && j == 600){
+		
 		printf("R: ");
 		printv(pr->cam->hor);
 		printf("U: ");
 		printv(pr->cam->ver);
 		printf("vector no normalizado: ");
 		printv(dir);
-	}
+	} */
 	return (ray);
+}
+
+uint32_t	get_closest_color(t_parse	*p)
+{
+	t_hit	*aux;
+	t_hit	*closest;
+	double	distance;
+
+	aux = p->hit;
+	closest = NULL;
+	distance = __DBL_MAX__;
+	while (aux)
+	{
+		if (distance > vlen(sub(aux->colission, p->cam->origin)))
+		{
+			distance = vlen(sub(aux->colission, p->cam->origin));
+			closest = aux;
+		}
+		aux = aux->next;
+	}
+	light_calc(closest, p);//lights r now calc'd here, and only for the closest intersection(did a few tests, doesnt seem to make it faster)
+	return (rgb_to_hex_alpha(closest->pixel_color));
+}
+
+int		ft_colission(t_ray ray, t_parse *pr, int x, int j)//changed to loop through all object lists, and now we calc the closest when deciding the color
+{
+	int		intersects;
+
+	intersects = 0;
+	(void)x;
+	(void)j;
+	ft_free_hit(pr->hit);
+	pr->hit = NULL;
+	intersects += sphere_colission(ray, pr, x, j);
+	intersects += plane_colission(ray, pr, x, j);
+	intersects += cylinder_colission(ray, pr, x, j);
+	/* if (x == 800 && j == 600) 
+		print_hit_list(pr->hit); */
+	//printf("number of colissions for pixel(%i, %i): %i\n", x, j, intersects);
+	if (pr->hit)
+		mlx_put_pixel(pr->img, x, j, get_closest_color(pr));//we calc the closest here now
+	return (intersects);
 }

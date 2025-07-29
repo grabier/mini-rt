@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_lst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 17:08:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/08 21:29:33 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:39:59 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	ft_free_sp(t_parse *p)
 	while (p->sp)
 	{
 		aux = p->sp->next;
+		if (p->sp->diffuse)
+			mlx_delete_image(p->data, p->sp->diffuse);
 		//printf("freed a sphere\n");
 		free(p->sp);
 		p->sp = aux;
@@ -58,7 +60,7 @@ void	ft_sphadd_front(t_sph **lst, t_sph *new)
 	*lst = new;
 }
 
-t_sph	*ft_sphnew(t_vec p, double d, t_color c)
+t_sph	*ft_sphnew(t_vec p, double d, t_color c, t_parse *parse)
 {
 	t_sph	*new_node;
 
@@ -68,7 +70,9 @@ t_sph	*ft_sphnew(t_vec p, double d, t_color c)
 	new_node->color = c;
 	new_node->point = p;
 	new_node->diam = d;
+	new_node->in = 0;
 	new_node->next = NULL;
+	new_node->diffuse = mlx_new_image(parse->data, MAX_W, MAX_H);
 	//printf("created a sphere\n");
 	return (new_node);
 }

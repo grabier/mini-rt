@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 16:12:34 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/03 18:30:15 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/07/25 18:40:13 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	ft_free_pl(t_parse *p)
 
 	while (p->pl)
 	{
+		if (p->pl->diffuse)
+			mlx_delete_image(p->data, p->pl->diffuse);
 		aux = p->pl->next;
 		//printf("freed a plane\n");
 		free(p->pl);
@@ -58,7 +60,7 @@ void	ft_pladd_front(t_pl **lst, t_pl *new)
 	*lst = new;
 }
 
-t_pl	*ft_plnew(t_vec p, t_vec n, t_color c)
+t_pl	*ft_plnew(t_vec p, t_vec n, t_color c, t_parse *parse)
 {
 	t_pl	*new_node;
 
@@ -69,6 +71,7 @@ t_pl	*ft_plnew(t_vec p, t_vec n, t_color c)
 	new_node->point = p;
 	new_node->n_vector = n;
 	new_node->next = NULL;
+	new_node->diffuse = mlx_new_image(parse->data, MAX_W, MAX_H);
 	//printf("created a plane\n");
 	return (new_node);
 }

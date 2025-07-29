@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
+/*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:01:26 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 17:47:52 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/22 16:37:26 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	ft_check_parsing (t_parse *p)
 		return (printf("Error:Only one camera allowed\n"), ft_free_parsing(p), 0);
 	if (p->L > 1) // multiple lights allowed in bonus
 		return (printf("Error:Only one light allowed\n"), ft_free_parsing(p), 0);
-	if (p->A == 0 && p->L == 0)
+	if (p->A == 0 && p->L == 0) // should be > 1 as we can start the scene without an ambient light
 		return (printf("Error: No ambient lighting or light set\n"), ft_free_parsing(p), 0);
 	if (p->pl_count == 0 && p->cy_count == 0 && p->sp_count == 0)
 		return (printf("Error: No object to represent\n"), ft_free_parsing(p), 0);
