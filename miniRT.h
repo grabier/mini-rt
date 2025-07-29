@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 18:27:51 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/29 16:43:56 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,11 @@ typedef struct s_pl
 
 typedef struct s_cy
 {
-	t_vec			point;
+	t_vec			point;	t_vec
+	colission;
 	t_vec			n_vector;
 	double			r;
+	int				mcol;//colission mode: 0 for lateral, 1 for base, 2 for top
 	double			height;
 	t_color			color;
 	mlx_image_t		*diffuse;
@@ -116,6 +118,7 @@ typedef struct s_aux
 typedef struct s_render_queue
 {
 	mlx_image_t	*img;
+	double		distance;
 	t_vec			point;
 	double			diam;
 }		t_render_queue;
@@ -317,3 +320,13 @@ t_color 		ft_init_color(char **sp);
 //plane_colission.c
 int	plane_colission(t_ray ray, t_parse *pr, int x, int j);
 int	ft_there_is_colission_pl(t_ray ray, t_pl *pl);
+
+//cylinder_colission.c
+t_vec	calc_normal_cy(t_cy *cy);
+int	cylinder_colission(t_ray ray, t_parse *pr, int x, int j);
+int	lateral_colission(t_ray ray, t_cy *cy);
+int	calc_lateral_colission(t_ray ray, t_cy *cy, t_vec r);
+int	cy_colission_point(t_ray ray, t_cy *cy, double t1, double t2);
+int	cy_both_positive(t_ray ray, t_cy *cy, t_vec p1, t_vec p2);
+int	last_case(t_ray ray, t_cy *cy, t_vec p1, t_vec p2);
+int	ft_there_is_colission_cy(t_ray ray, t_cy *cy);

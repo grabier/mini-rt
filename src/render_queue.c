@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 13:32:47 by aehrl             #+#    #+#             */
-/*   Updated: 2025/07/25 18:08:11 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/29 16:48:42 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ void	free_render_queue(t_parse *pr)
 	int			i;
 
 	object_count = pr->sp_count + pr->pl_count + pr->cy_count;
-	//object_count = pr->sp_count;
 	i = 0;
-	while(i < object_count)
+	while(i < object_count && pr->render_queue)
 	{
 		if (pr->render_queue[i])
 		{
@@ -43,6 +42,7 @@ int	fill_render_queue_spheres(t_parse *pr)
 	{
 		pr->render_queue[i] = (t_render_queue *)malloc(sizeof(t_render_queue));
 		pr->render_queue[i]->img = aux->diffuse;
+		pr->render_queue[i]->distance = vlen(aux->point) - (aux->diam / 2);
 		pr->render_queue[i]->point = aux->point;
 		pr->render_queue[i]->diam = aux->diam;
 		aux = aux->next;
@@ -62,6 +62,7 @@ int	fill_render_queue_cylinders(t_parse *pr, int i,  t_cy **lst)
 	{
 		pr->render_queue[i] = (t_render_queue *)malloc(sizeof(t_render_queue));
 		pr->render_queue[i]->img = aux->diffuse;
+		pr->render_queue[i]->distance = vlen(aux->point) - (aux->r / 2);
 		pr->render_queue[i]->point = aux->point;
 		pr->render_queue[i]->diam = aux->r;
 		aux = aux->next;
@@ -99,13 +100,13 @@ void	fill_render_queue(t_parse *pr)
 
 	object_count = pr->sp_count + pr->pl_count + pr->cy_count;
 	i = fill_render_queue_spheres(pr);
-	i += fill_render_queue_cylinders(pr, i, &pr->cy); // could just be one function for all
+	i = fill_render_queue_cylinders(pr, i, &pr->cy); // could just be one function for all
 	aux = pr->pl;
 	while(aux != NULL && i < object_count)
 	{
-		
 		pr->render_queue[i] = (t_render_queue *)malloc(sizeof(t_render_queue));
 		pr->render_queue[i]->img = aux->diffuse;
+		pr->render_queue[i]->distance = vlen(aux->point);
 		pr->render_queue[i]->point = aux->point;
 		pr->render_queue[i]->diam = 0;
 		aux = aux->next;
@@ -121,15 +122,16 @@ void sort_render_queue(t_render_queue **queue, int size)
 	double	dist_b;
 
 	i = 0;
-	(void)queue;
+	//(void)queue;
 	while(i < size)
 	{
 		if (i + 1 != size)
 		{
-			dist_a = vlen(queue[i]->point) - (queue[i]->diam / 2); //does not take camera into account
-			dist_b = vlen(queue[i + 1]->point) - (queue[i + 1]->diam / 2); //does not take camera into account
+			//need to update calculation for planes and cylinders
+			dist_a = queue[i]->distance; //does not take camera into account
+			dist_b = queue[i + 1]->distance;
 			printf("[%d]distance_a %f\n[%d]distance_b:%f\n\n",i, dist_a,i + 1,  dist_b);
-			if (dist_a > dist_b && dist_b != 0) //0 check for if we are inside the opbject (needs to be checked wiht updated calculation)
+			if (dist_a > dist_b && dist_b != 0)
 			{
 				aux = queue[i + 1];
 				queue[i + 1] = queue[i];

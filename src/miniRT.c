@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 18:43:08 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/29 16:51:24 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,37 +18,6 @@ uint32_t	rgb_to_hex_alpha(t_color color)
 		(color.b << 8) | 255);
 }
 
-/* uint32_t	rgb_to_hex_alpha(t_color color)
-{
-	return (color.r << 24) | (color.g << 16) |
-			(color.b << 8) | 255;
-} */
-
-/* void ft_draw_gradient()
-{
-	mlx_t	*data;
-	mlx_image_t	*img;
-	t_color color;
-	color.r = (int)(135);
-	color.g = (int)(206);
-	color.b = (int)(235);	
-	data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
-	img = mlx_new_image(data, MAX_W, MAX_H);
-	if (!data || !img){
-		printf("problemo\n");
-		return ;
-	}
-	for(int j = 0; j < MAX_W; j++){
-		for (int i = 0; i < MAX_H; i++){
-			double r = (double)(j) / (MAX_W - 1);
-			double g = (double)(i) / (MAX_H - 1);
-			double b = 0.0;
-			mlx_put_pixel(img, j, i, rgb_to_hex_alpha(color));
-		}
-	}
-	mlx_image_to_window(data, img, 0, 0);
-	mlx_loop(data);
-} */
 void	ft_create_images(t_parse *pr)
 {
 
@@ -100,10 +69,10 @@ void	ft_create_images(t_parse *pr)
 /* 	int	i;
 
 	i = pr->sp_count + pr->cy_count + pr->pl_count - 1; // will be updated to total number of objects
-	printf("RENDER QUEUE SIZE %d\n", i);
+	//printf("RENDER QUEUE SIZE %d\n", i);
 	while (i >= 0)
 	{
-		printf("ENTER\n");
+	//	printf("ENTER\n");
 		mlx_image_to_window(pr->data, pr->render_queue[i]->img, 0, 0);
 		i--;
 	} */
@@ -132,7 +101,6 @@ void esc_keyhook(mlx_key_data_t keydata, void* param)
 
 int main(int argc, char **argv)
 {
-	//ft_draw_gradient();
 	t_parse	*program = ft_parsing(argc, argv);
 	if (!program)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 17:53:11 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 18:46:07 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/29 16:20:06 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int		ft_colission(t_ray ray, t_parse *pr, int x, int j)//changed to loop through
 	pr->hit = NULL;
 	intersects += sphere_colission(ray, pr, x, j);
 	intersects += plane_colission(ray, pr, x, j);
+	intersects += cylinder_colission(ray, pr, x, j);
 	/* if (x == 800 && j == 600) 
 		print_hit_list(pr->hit); */
 	//printf("number of colissions for pixel(%i, %i): %i\n", x, j, intersects);

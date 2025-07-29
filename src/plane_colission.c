@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:33:30 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/25 18:43:43 by aehrl            ###   ########.fr       */
+/*   Updated: 2025/07/29 16:50:48 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	plane_colission(t_ray ray, t_parse *pr, int x, int j)
 			/* if (aux->in)
 				normal = scale(-1, normal); */
 			ft_hitadd_back(&pr->hit, ft_hitnew(aux->colission, aux->color, aux->n_vector, 1));
-			//mlx_put_pixel(aux->diffuse, x, j, get_closest_color(pr));
+		//	mlx_put_pixel(aux->diffuse, x, j, get_closest_color(pr));
 		}
 		aux = aux->next;
 	}

@@ -35,6 +35,7 @@ SRCS = $(SRC_DIR)/miniRT.c \
 	   $(SRC_DIR)/render_queue.c \
 	   $(SRC_DIR)/sphere_colission.c \
 	   $(SRC_DIR)/plane_colission.c \
+	   $(SRC_DIR)/cylinder_colission.c \
 
 
 OBJ_DIR = ./obj
