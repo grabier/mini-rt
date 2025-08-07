@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:02:19 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/29 16:38:09 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:24:19 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,35 +20,8 @@ uint32_t	rgb_to_hex_alpha(t_color color)
 		(color.b << 8) | 255);
 }
 
-/* void ft_draw_gradient()
-{
-	mlx_t	*data;
-	mlx_image_t	*img;
-	t_color color;
-	color.r = (int)(135);
-	color.g = (int)(206);
-	color.b = (int)(235);	
-	data = mlx_init(MAX_W, MAX_H, "Hello world!", 1);
-	img = mlx_new_image(data, MAX_W, MAX_H);
-	if (!data || !img){
-		printf("problemo\n");
-		return ;
-	}
-	for(int j = 0; j < MAX_W; j++){
-		for (int i = 0; i < MAX_H; i++){
-			double r = (double)(j) / (MAX_W - 1);
-			double g = (double)(i) / (MAX_H - 1);
-			double b = 0.0;
-			mlx_put_pixel(img, j, i, rgb_to_hex_alpha(color));
-		}
-	}
-	mlx_image_to_window(data, img, 0, 0);
-	mlx_loop(data);
-} */
-
 void	ft_render_loop(t_parse *pr)
 {
-
 	int		j;
 	int		i;
 
@@ -59,11 +32,6 @@ void	ft_render_loop(t_parse *pr)
 		i = 0;
 		while (i < MAX_W)
 		{
-			/*ray = ft_calc_ray(i, j, pr);
-			if (!ft_colission(ray, pr, i, j))
-				mlx_put_pixel(pr->img, i, j, 0xFF000000);*/
-			//render(pr, i, j);
-			//uint32_t color = render(pr, i, j);
 			mlx_put_pixel(pr->img, i, j, render(pr, i, j));
 			i++;
 		}

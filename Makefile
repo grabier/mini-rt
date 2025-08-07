@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g  #-fsanitize=address
+CFLAGS = -g  -fsanitize=address
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a

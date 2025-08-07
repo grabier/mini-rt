@@ -6,7 +6,7 @@
 /*   By: gmontoro <gmontoro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:59:23 by gmontoro          #+#    #+#             */
-/*   Updated: 2025/07/29 16:39:15 by gmontoro         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:21:49 by gmontoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,10 +309,15 @@ int	ft_there_is_colission_cy(t_ray ray, t_cy *cy);
 
 //render.c
 uint32_t	render(t_parse *pr, int width, int height);
-t_vec	estimate_normal(t_vec pos);
-t_collision	raycast(t_ray ray);
+t_vec	estimate_normal(t_vec pos, t_parse *pr);
+t_collision	raycast(t_ray ray, t_parse *pr);
 
 
 //sdf_1.c
-double sphere(t_vec p);
+double	sp_sdf(t_vec p, t_sph *sp);
 double rocket(t_vec p);
+double sphere(t_vec p, t_sph *sp);
+double cylinder(t_vec p, t_cy *cy);
+double	cy_sdf(t_vec p, t_cy *cy);
+double plane(t_vec p, t_pl *pl);
+double	pl_sdf(t_vec p, t_pl *pl);
